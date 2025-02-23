@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+
+    <!-- Charge -->
+    <string name="pokemon_list_id_format">#%03d</string>
+    <string name="pokemon_list_weight_format">Kg</string>
+    <string name="pokemon_list_weight">Peso</string>
+    <string name="pokemon_list_Height_format">m</string>
+    <string name="pokemon_list_Height">Altura</string>
+</resources>
