@@ -10,13 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.pokedex.details.view.screen.PokemonDetailsActivity
 import com.example.pokedex.list.view.components.HomeScreen
 import com.example.pokedex.list.viewmodel.PokemonListViewModel
 import com.example.pokedex.ui.theme.PokedexTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-class MainActivity : ComponentActivity() {
+class PokemonListActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,6 +36,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(viewModel: PokemonListViewModel) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    HomeScreen(pokemonLazyPagingItems = uiState.list.collectAsLazyPagingItems())
+
+    HomeScreen(
+        pokemonLazyPagingItems = uiState.list.collectAsLazyPagingItems(),
+        onClickPokemon = { id ->
+            val intent = PokemonDetailsActivity.newInstance(context, id)
+            context.startActivity(intent)
+        })
 }

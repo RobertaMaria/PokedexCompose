@@ -3,6 +3,7 @@ package com.example.pokedex.list.view.components
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -34,11 +35,16 @@ import com.example.pokedex.list.factory.PokemonMeasureData
 import com.example.pokedex.list.view.model.PokemonUi
 import com.example.pokedex.list.view.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
+import com.example.pokedex.utils.formatPokemonId
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun PokemonItem(pokemon: PokemonUi) {
+fun PokemonItem(
+    pokemon: PokemonUi,
+    onClickPokemon: (id: Int) -> Unit = {}
+) {
     Card(
+        modifier = Modifier.clickable { onClickPokemon(pokemon.id) },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
@@ -61,7 +67,7 @@ fun PokemonItem(pokemon: PokemonUi) {
 
             Image(
                 modifier = Modifier
-                    .size(130.dp)
+                    .size(150.dp)
                     .constrainAs(image) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -77,7 +83,7 @@ fun PokemonItem(pokemon: PokemonUi) {
             )
 
             Text(
-                text = pokemon.id,
+                text = pokemon.id.formatPokemonId(),
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
                 modifier = Modifier
@@ -149,7 +155,7 @@ fun PokemonItemPreview() {
         Surface {
             PokemonItem(
                 PokemonUi(
-                    id = "#010",
+                    id = 10,
                     name = "Pikachu",
                     image = "",
                     measuremList = listOf(

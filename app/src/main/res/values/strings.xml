@@ -7,4 +7,7 @@
     <string name="pokemon_list_weight">Peso</string>
     <string name="pokemon_list_Height_format">m</string>
     <string name="pokemon_list_Height">Altura</string>
+    <string name="content_description_progress_bar_stat">Barra de progresso de %1$s</string>
+    <string name="pokemon_image_url">https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%1$d.png</string>
+    <string name="pokemon_stat_title">Base stats</string>
 </resources>

@@ -7,7 +7,9 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import com.example.pokedex.data.database.entity.PokemonEntity
+import com.example.pokedex.data.database.entity.PokemonStats
 import com.example.pokedex.data.database.entity.RemoteKeysEntity
+import com.example.pokedex.data.database.entity.Stat
 import com.example.pokedex.data.datasource.local.PokemonLocalDataSource
 import com.example.pokedex.data.datasource.remote.PokemonRemoteDataSource
 import com.example.pokedex.data.mapper.PokemonMapper
@@ -63,6 +65,12 @@ class PokemonRemoteMediator(
                             weight = pokemon.weight,
                             type = pokemon.types.map {
                                 it.type.typeName
+                            },
+                            stats = pokemon.stats.map {
+                                PokemonStats(
+                                    baseStat = it.baseStat,
+                                    stat = Stat(it.stat.statName)
+                                )
                             }
                         )
                         Result.success(pokemonEntity)

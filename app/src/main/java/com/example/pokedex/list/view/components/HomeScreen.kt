@@ -28,7 +28,10 @@ import com.example.pokedex.ui.theme.PokedexTheme
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun HomeScreen(pokemonLazyPagingItems: LazyPagingItems<PokemonUi>) {
+fun HomeScreen(
+    pokemonLazyPagingItems: LazyPagingItems<PokemonUi>,
+    onClickPokemon: (id: Int) -> Unit = {}
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -41,7 +44,7 @@ fun HomeScreen(pokemonLazyPagingItems: LazyPagingItems<PokemonUi>) {
                 key = pokemonLazyPagingItems.itemKey { it.id }
             ) { index ->
                 pokemonLazyPagingItems[index]?.let { pokemon ->
-                    PokemonItem(pokemon = pokemon)
+                    PokemonItem(pokemon = pokemon, onClickPokemon)
                 }
             }
         }
@@ -75,7 +78,7 @@ fun PokemonListPreview() {
                     PagingData.from(
                         listOf(
                             PokemonUi(
-                                id = "#010",
+                                id = 10,
                                 name = "Pikachu",
                                 image = "",
                                 measuremList = listOf(

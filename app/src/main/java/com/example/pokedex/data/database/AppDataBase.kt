@@ -8,12 +8,18 @@ import com.example.pokedex.data.database.dao.PokemonDao
 import com.example.pokedex.data.database.dao.RemoteKeysDao
 import com.example.pokedex.data.database.entity.PokemonEntity
 import com.example.pokedex.data.database.entity.RemoteKeysEntity
+import com.example.pokedex.details.data.database.dao.PokemonEvolutionDao
+import com.example.pokedex.details.data.database.dao.PokemonSpecieDao
+import com.example.pokedex.details.data.database.entity.PokemonEvolutionEntity
+import com.example.pokedex.details.data.database.entity.PokemonSpecieEntity
 
-@Database(entities = [PokemonEntity::class, RemoteKeysEntity::class], version = 1)
+@Database(entities = [PokemonEntity::class, RemoteKeysEntity::class, PokemonSpecieEntity::class, PokemonEvolutionEntity::class], version = 1)
 abstract class AppDataBase : RoomDatabase() {
 
     abstract fun pokemonDao(): PokemonDao
     abstract fun remoteKeysDao(): RemoteKeysDao
+    abstract fun pokemonDetailsDao(): PokemonSpecieDao
+    abstract fun pokemonEvolutionDao(): PokemonEvolutionDao
 
     companion object {
         @Volatile

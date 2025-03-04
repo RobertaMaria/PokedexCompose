@@ -16,14 +16,18 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="31">
         <activity
-            android:name=".list.view.screens.MainActivity"
+            android:name=".list.view.screens.PokemonListActivity"
             android:exported="true"
             android:theme="@style/Theme.Pokedex">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".details.view.screen.PokemonDetailsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Pokedex">
         </activity>
     </application>
 
