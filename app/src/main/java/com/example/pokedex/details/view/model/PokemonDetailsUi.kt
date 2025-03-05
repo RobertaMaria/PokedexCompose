@@ -8,7 +8,9 @@ data class PokemonDetailsUi(
     var name: String = String(),
     var colours: List<Color> = listOf(),
     var image: String = String(),
-    val stats: List<PokemonStats> = listOf()
+    val stats: List<PokemonStats> = listOf(),
+    val evolutions: List<Evolutions> = listOf(),
+    val isLoaded: Boolean = false
 )
 
 data class PokemonStats(
@@ -18,4 +20,10 @@ data class PokemonStats(
 
 data class Stat(
     val name: String
+)
+
+data class Evolutions(
+    val name: String,
+    val image: String,
+    val id: Int
 )

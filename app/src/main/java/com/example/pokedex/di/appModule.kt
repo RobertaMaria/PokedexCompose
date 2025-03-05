@@ -76,7 +76,7 @@ val appModule = module {
 
     // Factories
     factory { PokemonListFactory(androidContext()) }
-    factory { PokemonDetailsFactory() }
+    factory { PokemonDetailsFactory(androidContext()) }
 
     // ViewModels
     viewModel { PokemonListViewModel(get(), get()) }

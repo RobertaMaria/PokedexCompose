@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.pokedex.details.view.components.DetailsScreen
+import com.example.pokedex.details.view.viewmodel.PokemonDetailsUiState
 import com.example.pokedex.details.view.viewmodel.PokemonDetailsViewModel
+import com.example.pokedex.list.view.components.LoadingAnimation
 import com.example.pokedex.ui.theme.PokedexTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -37,7 +39,24 @@ class PokemonDetailsActivity : ComponentActivity() {
     @Composable
     fun PokemonDetailsScreen() {
         val uiState by viewModel.uiState.collectAsState()
-        DetailsScreen(uiState.pokemonDetailsUi, uiState.isLoading)
+
+        when (uiState) {
+            is PokemonDetailsUiState.Success -> {
+                DetailsScreen(
+                    pokemonDetailsUi = (uiState as PokemonDetailsUiState.Success).pokemonDetailsUi,
+                    onClickEvolution = { id ->
+                        viewModel.onEvolutionClicked(id)
+                    })
+            }
+
+            is PokemonDetailsUiState.Loading -> {
+                LoadingAnimation(isCentered = true)
+            }
+
+            is PokemonDetailsUiState.Error -> {
+                // Handle error state
+            }
+        }
     }
 
     companion object {

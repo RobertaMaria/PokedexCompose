@@ -13,7 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PokemonDetailsImage(imageUrl: String){
+fun PokemonDetailsImage(imageUrl: String, size: Int = 250 ){
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
@@ -26,7 +26,7 @@ fun PokemonDetailsImage(imageUrl: String){
     Image(
         painter = painter,
         contentDescription = null,
-        modifier = Modifier.size(250.dp),
+        modifier = Modifier.size(size.dp),
         contentScale = ContentScale.Fit,
     )
 }
