@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.example.pokedex.details.data.database.entity.PokemonSpecieEntity
-import com.example.pokedex.details.data.database.model.SpeciesAndEvolution
+import com.example.pokedex.details.data.database.model.SpeciesAndEvolutions
 
 @Dao
 interface PokemonSpecieDao {
@@ -16,5 +16,5 @@ interface PokemonSpecieDao {
 
     @Transaction
     @Query("SELECT * FROM species_table WHERE id = :id")
-    fun getPokemonSpecie(id: Int): SpeciesAndEvolution
+    fun getPokemonSpecie(id: Int): SpeciesAndEvolutions
 }

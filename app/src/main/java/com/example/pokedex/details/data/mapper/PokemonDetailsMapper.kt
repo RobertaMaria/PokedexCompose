@@ -1,6 +1,6 @@
 package com.example.pokedex.details.data.mapper
 
-import com.example.pokedex.data.database.entity.PokemonEntity
+import com.example.pokedex.list.data.database.entity.PokemonEntity
 import com.example.pokedex.details.data.api.model.ChainResponse
 import com.example.pokedex.details.data.api.model.EvolutionsResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse

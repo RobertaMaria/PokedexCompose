@@ -21,15 +21,15 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import com.example.pokedex.R
-import com.example.pokedex.list.factory.PokemonMeasureData
-import com.example.pokedex.list.view.model.PokemonUi
+import com.example.pokedex.list.view.factory.PokemonMeasureData
+import com.example.pokedex.list.view.model.PokemonListUi
 import com.example.pokedex.list.view.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun HomeScreen(
-    pokemonLazyPagingItems: LazyPagingItems<PokemonUi>,
+    pokemonLazyPagingItems: LazyPagingItems<PokemonListUi>,
     onClickPokemon: (id: Int) -> Unit = {}
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -77,7 +77,7 @@ fun PokemonListPreview() {
                 pokemonLazyPagingItems = flowOf(
                     PagingData.from(
                         listOf(
-                            PokemonUi(
+                            PokemonListUi(
                                 id = 10,
                                 name = "Pikachu",
                                 image = "",

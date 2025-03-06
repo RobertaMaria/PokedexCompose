@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.example.pokedex.R
-import com.example.pokedex.list.factory.PokemonMeasureData
-import com.example.pokedex.list.view.model.PokemonUi
+import com.example.pokedex.list.view.factory.PokemonMeasureData
+import com.example.pokedex.list.view.model.PokemonListUi
 import com.example.pokedex.list.view.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
 import com.example.pokedex.utils.formatPokemonId
@@ -40,7 +40,7 @@ import com.example.pokedex.utils.formatPokemonId
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PokemonItem(
-    pokemon: PokemonUi,
+    pokemon: PokemonListUi,
     onClickPokemon: (id: Int) -> Unit = {}
 ) {
     Card(
@@ -154,7 +154,7 @@ fun PokemonItemPreview() {
     PokedexTheme {
         Surface {
             PokemonItem(
-                PokemonUi(
+                PokemonListUi(
                     id = 10,
                     name = "Pikachu",
                     image = "",

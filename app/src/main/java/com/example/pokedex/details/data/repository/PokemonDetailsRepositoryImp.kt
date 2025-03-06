@@ -1,7 +1,7 @@
 package com.example.pokedex.details.data.repository
 
-import com.example.pokedex.details.data.datasource.local.PokemonDetailLocalDataSource
-import com.example.pokedex.details.data.datasource.remote.PokemonDetailRemoteDataSource
+import com.example.pokedex.details.data.datasource.local.PokemonDetailsLocalDataSource
+import com.example.pokedex.details.data.datasource.remote.PokemonDetailsRemoteDataSource
 import com.example.pokedex.details.data.mapper.PokemonDetailsMapper
 import com.example.pokedex.details.domain.model.PokemonDetails
 import com.example.pokedex.details.domain.repository.PokemonDetailsRepository
@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class PokemonDetailsRepositoryImp(
-    private val remoteDataSource: PokemonDetailRemoteDataSource,
-    private val localDataSource: PokemonDetailLocalDataSource,
+    private val remoteDataSource: PokemonDetailsRemoteDataSource,
+    private val localDataSource: PokemonDetailsLocalDataSource,
     private val mapper: PokemonDetailsMapper,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : PokemonDetailsRepository {
