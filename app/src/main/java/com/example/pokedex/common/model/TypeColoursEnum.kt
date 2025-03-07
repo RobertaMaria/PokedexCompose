@@ -1,4 +1,4 @@
-package com.example.pokedex.list.view.model
+package com.example.pokedex.common.model
 
 import android.graphics.Color.parseColor
 import androidx.compose.ui.graphics.Color

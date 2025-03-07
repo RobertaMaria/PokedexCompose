@@ -31,9 +31,10 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.example.pokedex.R
+import com.example.pokedex.common.components.PokemonType
 import com.example.pokedex.list.view.factory.PokemonMeasureData
 import com.example.pokedex.list.view.model.PokemonListUi
-import com.example.pokedex.list.view.model.TypeColoursEnum
+import com.example.pokedex.common.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
 import com.example.pokedex.utils.formatPokemonId
 

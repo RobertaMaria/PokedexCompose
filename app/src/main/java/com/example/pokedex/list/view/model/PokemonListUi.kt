@@ -1,5 +1,6 @@
 package com.example.pokedex.list.view.model
 
+import com.example.pokedex.common.model.TypeColoursEnum
 import com.example.pokedex.list.view.factory.PokemonMeasureData
 
 data class PokemonListUi(

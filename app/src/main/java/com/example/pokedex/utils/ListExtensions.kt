@@ -1,6 +1,6 @@
 package com.example.pokedex.utils
 
-import com.example.pokedex.list.view.model.TypeColoursEnum
+import com.example.pokedex.common.model.TypeColoursEnum
 
 fun List<String>.mapToTypeColors(): List<TypeColoursEnum> {
     val defaultColor = TypeColoursEnum.NORMAL

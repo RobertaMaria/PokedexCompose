@@ -21,12 +21,10 @@ class PokemonDetailsFactory(private val context: Context) {
                 stats = stats.map {
                     PokemonStats(it.baseStat, Stat(it.stat.name))
                 },
-                colours = type.mapToTypeColors().map {
-                    it.getColor()
-                },
+                colours = type.mapToTypeColors(),
                 evolutions = evolutions.map {
                     Evolutions(
-                        name = it.name,
+                        name = it.name.titleCase,
                         image = context.getString(R.string.pokemon_image_url, it.pokemonId),
                         id = it.pokemonId
                     )

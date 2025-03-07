@@ -61,6 +61,10 @@ fun PokemonDetails(pokemonDetailsUi: PokemonDetailsUi) {
                 .fillMaxWidth(),
             textAlign = TextAlign.Center
         )
-        PokemonStat(pokemonDetailsUi.stats, pokemonDetailsUi.colours)
+        PokemonStat(
+            stats = pokemonDetailsUi.stats,
+            colors = pokemonDetailsUi.colours.map { it.getColor() })
+
+        PokemonDetailsType(typeColoursEnum = pokemonDetailsUi.colours)
     }
 }

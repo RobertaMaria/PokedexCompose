@@ -1,12 +1,12 @@
 package com.example.pokedex.details.view.model
 
-import androidx.compose.ui.graphics.Color
+import com.example.pokedex.common.model.TypeColoursEnum
 
 data class PokemonDetailsUi(
     val id: Int = 0,
     var description: String = String(),
     var name: String = String(),
-    var colours: List<Color> = listOf(),
+    var colours: List<TypeColoursEnum> = listOf(),
     var image: String = String(),
     val stats: List<PokemonStats> = listOf(),
     val evolutions: List<Evolutions> = listOf(),

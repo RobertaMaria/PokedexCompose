@@ -1,4 +1,4 @@
-package com.example.pokedex.list.view.components
+package com.example.pokedex.common.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.pokedex.list.view.model.TypeColoursEnum
+import com.example.pokedex.common.model.TypeColoursEnum
 
 @Composable
 fun PokemonType(typeColoursEnum: TypeColoursEnum) {

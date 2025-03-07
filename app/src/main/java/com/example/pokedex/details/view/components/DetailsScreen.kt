@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.pokedex.details.view.model.PokemonDetailsUi
 import com.example.pokedex.list.view.components.LoadingAnimation
+import com.example.pokedex.common.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
 
 @Composable
@@ -35,7 +36,10 @@ fun DetailsScreen(
             modifier = Modifier
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = pokemonDetailsUi.colours.plus(Color.Transparent)
+                        colors = pokemonDetailsUi.colours.map {
+                            it.getColor()
+                        }
+                            .plus(Color.Transparent)
                     )
                 )
         ) {
@@ -70,9 +74,8 @@ fun DetailsScreenPreview() {
                     name = "Bulbasaur",
                     description = "This Pokémon is vulnerable while its shell is soft, exposing its weak and tender body.",
                     colours = listOf(
-                        Color.Red,
-                        Color.Green,
-                        Color.Blue,
+                        TypeColoursEnum.DRAGON,
+                        TypeColoursEnum.ELECTRIC
                     )
                 )
             )
