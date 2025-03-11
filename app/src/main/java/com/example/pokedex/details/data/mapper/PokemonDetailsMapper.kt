@@ -16,7 +16,11 @@ private const val LANGUAGE_ENGLISH = "en"
 
 class PokemonDetailsMapper {
 
-    fun mapToEntity(response: PokemonSpecieResponse, id: Int): PokemonSpecieEntity {
+    fun mapToSpecieEntity(
+        response: PokemonSpecieResponse,
+        id: Int,
+        damageRelations: Pair<List<String>, List<String>>
+    ): PokemonSpecieEntity {
         val flavorTextEntry = response.flavorTextEntries.firstOrNull {
             it.language.name == LANGUAGE_ENGLISH
         }?.flavorText.orEmpty()
@@ -27,7 +31,9 @@ class PokemonDetailsMapper {
             PokemonSpecieEntity(
                 id = id,
                 description = flavorTextEntry,
-                evolutionId = evolutionId
+                evolutionId = evolutionId,
+                doubleDamage = damageRelations.first,
+                noDamage = damageRelations.second
             )
         }
     }
@@ -48,7 +54,9 @@ class PokemonDetailsMapper {
             },
             evolutions = evolutionEntity.evolutions.map {
                 Evolutions(name = it.name, pokemonId = it.pokemonId)
-            }
+            },
+            doubleDamage = specieEntity.doubleDamage,
+            noDamage = specieEntity.noDamage
         )
     }
 

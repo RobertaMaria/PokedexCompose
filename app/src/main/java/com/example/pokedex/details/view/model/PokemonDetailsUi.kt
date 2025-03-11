@@ -10,7 +10,9 @@ data class PokemonDetailsUi(
     var image: String = String(),
     val stats: List<PokemonStats> = listOf(),
     val evolutions: List<Evolutions> = listOf(),
-    val isLoaded: Boolean = false
+    val isLoaded: Boolean = false,
+    val doubleDamage: List<TypeColoursEnum> = listOf(),
+    val noDamage: List<TypeColoursEnum> = listOf()
 )
 
 data class PokemonStats(

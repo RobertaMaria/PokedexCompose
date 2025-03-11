@@ -26,7 +26,9 @@ import com.example.pokedex.ui.theme.PokedexTheme
 @Composable
 fun PokemonEvolutions(evolutions: List<Evolutions>, onClickEvolution: (id: Int) -> Unit = {}) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

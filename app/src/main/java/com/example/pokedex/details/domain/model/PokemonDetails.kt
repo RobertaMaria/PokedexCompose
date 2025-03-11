@@ -7,7 +7,9 @@ data class PokemonDetails(
     var image: String,
     val type: List<String>,
     val stats: List<PokemonStats>,
-    val evolutions: List<Evolutions>
+    val evolutions: List<Evolutions>,
+    val doubleDamage: List<String>,
+    val noDamage: List<String>
 )
 
 data class PokemonStats(

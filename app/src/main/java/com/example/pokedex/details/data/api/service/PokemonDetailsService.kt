@@ -1,5 +1,6 @@
 package com.example.pokedex.details.data.api.service
 
+import com.example.pokedex.details.data.api.model.PokemonDamageRelationsResponse
 import com.example.pokedex.details.data.api.model.PokemonEvolutionResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import retrofit2.http.GET
@@ -13,4 +14,7 @@ interface PokemonDetailsService {
 
     @GET
     suspend fun searchPokemonEvolution(@Url url: String): PokemonEvolutionResponse
+
+    @GET("type/{name}")
+    suspend fun searchDamageRelations(@Path("name") name: String): PokemonDamageRelationsResponse
 }

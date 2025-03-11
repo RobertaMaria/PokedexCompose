@@ -12,4 +12,6 @@
     <string name="pokemon_stat_title">Base stats</string>
     <string name="pokemon_evolutions_title">Evolutions</string>
     <string name="pokemon_type_title">Type</string>
+    <string name="pokemon_weakness_title">Weakness</string>
+    <string name="pokemon_immune_title">Immune</string>
 </resources>

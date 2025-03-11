@@ -12,7 +12,7 @@ import com.example.pokedex.details.data.database.model.SpeciesAndEvolutions
 interface PokemonSpecieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(pokemonDetails: PokemonSpecieEntity)
+    fun insert(pokemonSpecie: PokemonSpecieEntity)
 
     @Transaction
     @Query("SELECT * FROM species_table WHERE id = :id")

@@ -1,5 +1,6 @@
 package com.example.pokedex.details.data.datasource.remote
 
+import com.example.pokedex.details.data.api.model.PokemonDamageRelationsResponse
 import com.example.pokedex.details.data.api.model.PokemonEvolutionResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import com.example.pokedex.details.data.api.service.PokemonDetailsService
@@ -16,5 +17,9 @@ class PokemonDetailsRemoteDataSourceImp(private val service: PokemonDetailsServi
 
     override fun searchPokemonEvolution(url: String): Flow<PokemonEvolutionResponse> {
         return flow { emit(service.searchPokemonEvolution(url = url)) }
+    }
+
+    override fun searchDamageRelations(name: String): Flow<PokemonDamageRelationsResponse> {
+        return flow { emit(service.searchDamageRelations(name = name)) }
     }
 }

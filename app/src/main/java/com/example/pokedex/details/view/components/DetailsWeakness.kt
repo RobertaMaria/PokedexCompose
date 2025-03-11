@@ -1,7 +1,8 @@
 package com.example.pokedex.details.view.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,19 +10,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.pokedex.R
 import com.example.pokedex.common.components.PokemonType
 import com.example.pokedex.common.model.TypeColoursEnum
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun PokemonDetailsType(typeColoursEnum: List<TypeColoursEnum>){
+fun DetailsWeakness(doubleDamage: List<TypeColoursEnum>, title: String) {
     Text(
-        text = stringResource(R.string.pokemon_type_title),
+        text = title,
         fontSize = 20.sp,
         fontWeight = FontWeight.Bold,
         modifier = Modifier
@@ -32,11 +32,12 @@ fun PokemonDetailsType(typeColoursEnum: List<TypeColoursEnum>){
 
     Spacer(modifier = Modifier.height(8.dp))
 
-    Row(
+    FlowRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        typeColoursEnum.forEach {
+        doubleDamage.forEach {
             PokemonType(it)
         }
     }
