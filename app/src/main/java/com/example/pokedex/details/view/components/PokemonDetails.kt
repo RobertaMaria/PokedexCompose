@@ -33,6 +33,10 @@ fun PokemonDetails(pokemonDetailsUi: PokemonDetailsUi) {
             stats = pokemonDetailsUi.stats,
             colors = pokemonDetailsUi.colours.map { it.getColor() }
         )
+        PokemonFeatures(
+            featuresUi = pokemonDetailsUi.featuresUi,
+            colours = pokemonDetailsUi.colours.map { it.getColor() }
+        )
         PokemonDetailsType(typeColoursEnum = pokemonDetailsUi.colours)
         PokemonDetailsDamage(
             doubleDamage = pokemonDetailsUi.doubleDamage,

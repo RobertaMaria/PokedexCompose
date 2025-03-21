@@ -1,5 +1,6 @@
 package com.example.pokedex.details.view.model
 
+import androidx.annotation.DrawableRes
 import com.example.pokedex.common.model.TypeColoursEnum
 
 data class PokemonDetailsUi(
@@ -12,7 +13,8 @@ data class PokemonDetailsUi(
     val evolutions: List<Evolutions> = listOf(),
     val isLoaded: Boolean = false,
     val doubleDamage: List<TypeColoursEnum> = listOf(),
-    val noDamage: List<TypeColoursEnum> = listOf()
+    val noDamage: List<TypeColoursEnum> = listOf(),
+    val featuresUi: FeaturesUi
 )
 
 data class PokemonStats(
@@ -28,4 +30,12 @@ data class Evolutions(
     val name: String,
     val image: String,
     val id: Int
+)
+
+data class FeaturesUi(
+    val height: String,
+    val weight: String,
+    @DrawableRes val gender: Int,
+    val category: String,
+    val ability: List<String>
 )

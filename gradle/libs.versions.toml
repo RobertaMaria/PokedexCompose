@@ -17,6 +17,7 @@ paging = "3.3.6"
 coil = "2.2.2"
 constraintlayout = "1.1.0"
 kotlinParcelize = "2.0.20-Beta1"
+compose-material-icons-extended = "1.5.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -48,6 +49,7 @@ koin-android-compose = { group = "io.insert-koin", name = "koin-androidx-compose
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version.ref = "constraintlayout" }
+compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose-material-icons-extended" }
 
 
 [plugins]
@@ -79,12 +81,13 @@ paging = [
     "androidx-paging-runtime",
     "androidx-paging-compose"
 ]
-compose = [ # Bundle para Compose
+compose = [
     "androidx-ui",
     "androidx-ui-graphics",
     "androidx-ui-tooling",
     "androidx-ui-tooling-preview",
     "androidx-material3",
     "androidx-activity-compose",
-    "compose-coil"
+    "compose-coil",
+    "compose-material-icons-extended"
 ]

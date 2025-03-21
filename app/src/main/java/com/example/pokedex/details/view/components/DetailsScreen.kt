@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.pokedex.common.model.TypeColoursEnum
+import com.example.pokedex.details.view.model.FeaturesUi
 import com.example.pokedex.details.view.model.PokemonDetailsUi
 import com.example.pokedex.list.view.components.LoadingAnimation
 import com.example.pokedex.ui.theme.PokedexTheme
@@ -76,6 +77,13 @@ fun DetailsScreenPreview() {
                     colours = listOf(
                         TypeColoursEnum.DRAGON,
                         TypeColoursEnum.ELECTRIC
+                    ),
+                    featuresUi = FeaturesUi(
+                        height = "0.7 m",
+                        weight = "6.9 kg",
+                        gender = 0,
+                        category = "Seed Pokémon",
+                        ability = listOf("Overgrow", "Chlorophyll")
                     )
                 )
             )

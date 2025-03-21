@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class PokemonSpecieResponse(
     @SerializedName("flavor_text_entries") val flavorTextEntries: List<FlavorTextEntry>,
-    @SerializedName("evolution_chain") val chainResponse: EvolutionChainResponse
+    @SerializedName("evolution_chain") val chainResponse: EvolutionChainResponse,
+    @SerializedName("gender_rate") val gender: Int,
+    @SerializedName("genera") val genera: List<GeneraResponse>
 )
 
 data class FlavorTextEntry(
@@ -18,4 +20,9 @@ data class LanguageResponse(
 
 data class EvolutionChainResponse(
     @SerializedName("url") val url: String
+)
+
+data class GeneraResponse(
+    @SerializedName("genus") val genus: String,
+    @SerializedName("language") val language: LanguageResponse
 )

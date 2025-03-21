@@ -71,6 +71,9 @@ class PokemonListRemoteMediator(
                                     baseStat = it.baseStat,
                                     stat = Stat(it.stat.statName)
                                 )
+                            },
+                            abilities = pokemon.abilities.map {
+                                it.ability.abilityName
                             }
                         )
                         Result.success(pokemonEntity)

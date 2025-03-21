@@ -13,5 +13,7 @@ data class PokemonSpecieEntity (
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "evolutionId") var evolutionId: Int,
     @ColumnInfo(name = "doubleDamage") var doubleDamage: List<String>,
-    @ColumnInfo(name = "noDamage") var noDamage: List<String>
+    @ColumnInfo(name = "noDamage") var noDamage: List<String>,
+    @ColumnInfo("gender") var gender: Int,
+    @ColumnInfo("category") var category: String
 )

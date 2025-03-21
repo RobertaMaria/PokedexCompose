@@ -3,11 +3,14 @@ package com.example.pokedex.details.data.mapper
 import com.example.pokedex.list.data.database.entity.PokemonEntity
 import com.example.pokedex.details.data.api.model.ChainResponse
 import com.example.pokedex.details.data.api.model.EvolutionsResponse
+import com.example.pokedex.details.data.api.model.FlavorTextEntry
+import com.example.pokedex.details.data.api.model.GeneraResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import com.example.pokedex.details.data.database.entity.EvolutionsEntity
 import com.example.pokedex.details.data.database.entity.PokemonEvolutionEntity
 import com.example.pokedex.details.data.database.entity.PokemonSpecieEntity
 import com.example.pokedex.details.domain.model.Evolutions
+import com.example.pokedex.details.domain.model.Features
 import com.example.pokedex.details.domain.model.PokemonDetails
 import com.example.pokedex.details.domain.model.PokemonStats
 import com.example.pokedex.details.domain.model.Stat
@@ -21,10 +24,9 @@ class PokemonDetailsMapper {
         id: Int,
         damageRelations: Pair<List<String>, List<String>>
     ): PokemonSpecieEntity {
-        val flavorTextEntry = response.flavorTextEntries.firstOrNull {
-            it.language.name == LANGUAGE_ENGLISH
-        }?.flavorText.orEmpty()
 
+        val flavorTextEntry = response.flavorTextEntries.findEnglishFlavorText()
+        val genus = response.genera.findEnglishGenus()
         val evolutionId = extractIdFromUrl(response.chainResponse.url)
 
         return response.run {
@@ -33,9 +35,19 @@ class PokemonDetailsMapper {
                 description = flavorTextEntry,
                 evolutionId = evolutionId,
                 doubleDamage = damageRelations.first,
-                noDamage = damageRelations.second
+                noDamage = damageRelations.second,
+                gender = response.gender,
+                category = genus
             )
         }
+    }
+
+    private fun List<FlavorTextEntry>.findEnglishFlavorText(): String {
+        return firstOrNull { it.language.name == LANGUAGE_ENGLISH }?.flavorText.orEmpty()
+    }
+
+    private fun List<GeneraResponse>.findEnglishGenus(): String {
+        return firstOrNull { it.language.name == LANGUAGE_ENGLISH }?.genus.orEmpty()
     }
 
     fun mapToDomain(
@@ -56,7 +68,14 @@ class PokemonDetailsMapper {
                 Evolutions(name = it.name, pokemonId = it.pokemonId)
             },
             doubleDamage = specieEntity.doubleDamage,
-            noDamage = specieEntity.noDamage
+            noDamage = specieEntity.noDamage,
+            features = Features(
+                height = pokemonEntity.height,
+                weight = pokemonEntity.weight,
+                gender = specieEntity.gender,
+                category = specieEntity.category,
+                ability = pokemonEntity.abilities
+            )
         )
     }
 

@@ -16,7 +16,8 @@ data class PokemonEntity(
     @ColumnInfo(name = "height") var height: Int,
     @ColumnInfo(name = "weight") var weight: Int,
     @ColumnInfo(name = "type") var type: List<String>,
-    @ColumnInfo(name = "stats") var stats: List<PokemonStats>
+    @ColumnInfo(name = "stats") var stats: List<PokemonStats>,
+    @ColumnInfo(name = "abilities") var abilities: List<String>
 )
 
 data class PokemonStats(

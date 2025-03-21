@@ -9,7 +9,8 @@ data class PokemonDetails(
     val stats: List<PokemonStats>,
     val evolutions: List<Evolutions>,
     val doubleDamage: List<String>,
-    val noDamage: List<String>
+    val noDamage: List<String>,
+    val features: Features
 )
 
 data class PokemonStats(
@@ -20,7 +21,16 @@ data class PokemonStats(
 data class Stat(
     val name: String
 )
+
 data class Evolutions(
     val name: String,
     val pokemonId: Int
+)
+
+data class Features(
+    val height: Int,
+    val weight: Int,
+    val gender: Int,
+    val category: String,
+    val ability: List<String>
 )

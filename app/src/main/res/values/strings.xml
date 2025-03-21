@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Pokedex</string>
-
-    <!-- Charge -->
     <string name="pokemon_list_id_format">#%03d</string>
     <string name="pokemon_list_weight_format">Kg</string>
     <string name="pokemon_list_weight">Peso</string>
@@ -9,9 +7,17 @@
     <string name="pokemon_list_Height">Altura</string>
     <string name="content_description_progress_bar_stat">Barra de progresso de %1$s</string>
     <string name="pokemon_image_url">https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/%1$d.png</string>
-    <string name="pokemon_stat_title">Base stats</string>
-    <string name="pokemon_evolutions_title">Evolutions</string>
-    <string name="pokemon_type_title">Type</string>
-    <string name="pokemon_weakness_title">Weakness</string>
-    <string name="pokemon_immune_title">Immune</string>
+    <string name="pokemon_stat_title">Estatísticas</string>
+    <string name="pokemon_evolutions_title">Evoluções</string>
+    <string name="pokemon_type_title">Tipo</string>
+    <string name="pokemon_weakness_title">Fraquezas</string>
+    <string name="pokemon_immune_title">Imunidade</string>
+    <string name="pokemon_features_title">Características:</string>
+    <string name="pokemon_features_content_description_expanded">Expanded</string>
+    <string name="pokemon_features_content_description_collapse">Collapse</string>
+    <string name="pokemon_features_height_title">Altura:</string>
+    <string name="pokemon_features_weight_title">Peso:</string>
+    <string name="pokemon_features_gender_title">Gênero:</string>
+    <string name="pokemon_features_category_title">Categoria:</string>
+    <string name="pokemon_features_ability_title">Habilidades:</string>
 </resources>

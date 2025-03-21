@@ -18,3 +18,7 @@ fun String.cleanDescription(): String {
         .replace("\\s+".toRegex(), " ")
         .trim()
 }
+
+fun String.removePokemonSuffix(): String {
+    return this.replace("Pokémon", "").trim()
+}
