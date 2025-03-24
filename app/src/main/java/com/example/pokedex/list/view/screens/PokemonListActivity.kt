@@ -41,6 +41,8 @@ fun App(viewModel: PokemonListViewModel) {
 
     HomeScreen(
         pokemonLazyPagingItems = uiState.list.collectAsLazyPagingItems(),
+        onSearchTextChange = { viewModel.setSearchText(it) },
+        searchText = uiState.searchText,
         onClickPokemon = { id ->
             val intent = PokemonDetailsActivity.newInstance(context, id)
             context.startActivity(intent)

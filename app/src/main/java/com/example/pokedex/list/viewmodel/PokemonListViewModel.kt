@@ -10,6 +10,7 @@ import com.example.pokedex.list.view.factory.PokemonListFactory
 import com.example.pokedex.list.view.model.PokemonListUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class PokemonListViewModel(
@@ -17,7 +18,8 @@ class PokemonListViewModel(
     private val factory: PokemonListFactory
 ) : ViewModel() {
 
-    private val _listPokemon = MutableStateFlow<PagingData<PokemonListUi>>(PagingData.from(emptyList()))
+    private val _listPokemon =
+        MutableStateFlow<PagingData<PokemonListUi>>(PagingData.from(emptyList()))
     private val _uiState = MutableStateFlow(PokemonListUiState(_listPokemon.asStateFlow()))
     val uiState = _uiState.asStateFlow()
 
@@ -25,13 +27,21 @@ class PokemonListViewModel(
         getPokemonList()
     }
 
+    fun setSearchText(text: String) {
+        _uiState.value = _uiState.value.copy(searchText = text)
+        getPokemonList()
+    }
+
     private fun getPokemonList() {
         viewModelScope.launch {
-            getPokemonListUseCase().cachedIn(viewModelScope).collect { pageData ->
-                _listPokemon.value = pageData.map { pokemon ->
-                    factory(pokemon)
+            val searchText = _uiState.value.searchText
+            val searchId = searchText.toIntOrNull()
+
+            getPokemonListUseCase(searchName = searchText, searchId = searchId)
+                .cachedIn(viewModelScope)
+                .collectLatest { pagingData ->
+                    _listPokemon.value = pagingData.map { factory(it) }
                 }
-            }
         }
     }
 }

@@ -17,4 +17,10 @@ interface PokemonDao {
 
     @Query("SELECT * FROM pokemon_table WHERE id = :pokemonId")
     fun getPokemonById(pokemonId: Int): PokemonEntity?
+
+    @Query("SELECT * FROM pokemon_table WHERE name LIKE '%' || :name || '%'")
+    fun getPokemonByName(name: String): PagingSource<Int, PokemonEntity>
+
+    @Query("SELECT * FROM pokemon_table WHERE id = :pokemonId")
+    fun getPagingSourceById(pokemonId: Int): PagingSource<Int, PokemonEntity>
 }
