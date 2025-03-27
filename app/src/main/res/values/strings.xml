@@ -7,6 +7,7 @@
     <string name="pokemon_list_Height">Altura</string>
     <string name="pokemon_list_search_hint">Buscar por nome ou id</string>
     <string name="pokemon_list_search_content_description">Clean</string>
+    <string name="pokemon_list_scroll_top_button_content_description">Voltar ao topo</string>
     <string name="pokemon_details_error_title">Opa! Algo deu errado.</string>
     <string name="pokemon_details_error_subtitle">Detalhes do pokémon não encontrados.</string>
     <string name="pokemon_details_button_title">OK</string>

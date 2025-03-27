@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
@@ -34,12 +38,16 @@ fun HomeScreen(
     onSearchTextChange: (String) -> Unit,
     searchText: String
 ) {
+    val listState = rememberLazyListState()
+    val showButton by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
+    val coroutineScope = rememberCoroutineScope()
+
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
         Column(modifier = Modifier.fillMaxWidth()) {
             SearchTextField(searchText = searchText, onSearchTextChange = onSearchTextChange)
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                state = rememberLazyListState(),
+                state = listState,
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -54,6 +62,7 @@ fun HomeScreen(
             }
         }
         LoadStateFooter(pokemonLazyPagingItems.loadState, pokemonLazyPagingItems.itemCount)
+        ScrollToTopButton(listState = listState, showButton = showButton, coroutineScope = coroutineScope)
     }
 }
 
