@@ -25,7 +25,9 @@ class PokemonDetailsViewModel(
     private fun onPokemonClicked() {
         viewModelScope.launch {
             useCase.invoke(id)
-                .catch { PokemonDetailsUiState.Error }
+                .catch {
+                    _uiState.value = PokemonDetailsUiState.Error
+                }
                 .collect { pokemonDetails ->
                     val pokemonDetailsUi =
                         factory.invoke(pokemonDetails = pokemonDetails).copy(isLoaded = false)
@@ -41,10 +43,12 @@ class PokemonDetailsViewModel(
     }
 
     private fun updateIsLoaded() {
-        if (uiState.value is PokemonDetailsUiState.Success) {
-            val currentSuccessState = uiState.value as PokemonDetailsUiState.Success
-            val updatedDetailsUi = currentSuccessState.pokemonDetailsUi.copy(isLoaded = true)
-            _uiState.value = PokemonDetailsUiState.Success(updatedDetailsUi)
+        _uiState.value = when (val currentState = _uiState.value) {
+            is PokemonDetailsUiState.Success -> {
+                val updatedDetailsUi = currentState.pokemonDetailsUi.copy(isLoaded = true)
+                PokemonDetailsUiState.Success(updatedDetailsUi)
+            }
+            else -> currentState
         }
     }
 }

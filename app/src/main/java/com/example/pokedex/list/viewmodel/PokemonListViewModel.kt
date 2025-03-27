@@ -28,16 +28,21 @@ class PokemonListViewModel(
     }
 
     fun setSearchText(text: String) {
-        _uiState.value = _uiState.value.copy(searchText = text)
+        _uiState.value = _uiState.value.copy(searchText = text, isInitialLoad = false)
         getPokemonList()
     }
 
     private fun getPokemonList() {
         viewModelScope.launch {
             val searchText = _uiState.value.searchText
+            val isInitialLoad = _uiState.value.isInitialLoad
             val searchId = searchText.toIntOrNull()
 
-            getPokemonListUseCase(searchName = searchText, searchId = searchId)
+            getPokemonListUseCase(
+                searchText = searchText,
+                searchId = searchId,
+                isInitialLoad = isInitialLoad
+            )
                 .cachedIn(viewModelScope)
                 .collectLatest { pagingData ->
                     _listPokemon.value = pagingData.map { factory(it) }

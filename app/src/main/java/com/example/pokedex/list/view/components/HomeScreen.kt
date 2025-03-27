@@ -53,7 +53,7 @@ fun HomeScreen(
                 }
             }
         }
-        LoadStateFooter(pokemonLazyPagingItems.loadState)
+        LoadStateFooter(pokemonLazyPagingItems.loadState, pokemonLazyPagingItems.itemCount)
     }
 }
 

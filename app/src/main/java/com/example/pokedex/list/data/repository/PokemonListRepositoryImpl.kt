@@ -18,35 +18,31 @@ class PokemonListRepositoryImpl(
     private val pokemonListRemoteMediator: PokemonListRemoteMediator,
     private val pokemonDao: PokemonDao,
     private val mapper: PokemonListMapper
-) :
-    PokemonListRepository {
+) : PokemonListRepository {
+
     @OptIn(ExperimentalPagingApi::class)
-    override fun listPokemon(searchName: String, searchId: Int?): Flow<PagingData<PokemonList>> {
-        val pagingSourceFactory = when {
-            searchId != null -> {
-                { pokemonDao.getPagingSourceById(searchId) }
-            }
+    override fun searchPokemonList(
+        searchText: String,
+        searchId: Int?,
+        isInitialLoad: Boolean
+    ): Flow<PagingData<PokemonList>> {
 
-            searchName.isNotBlank() -> {
-                { pokemonDao.getPokemonByName(searchName) }
-            }
-
-            else -> {
+        val pagingSourceFactory = searchId?.let { { pokemonDao.getPagingSourceById(it) } }
+            ?: if (searchText.isNotBlank()) {
+                { pokemonDao.getPokemonByName(searchText) }
+            } else {
                 { pokemonDao.getAll() }
             }
-        }
+        val remoteMediator = if (isInitialLoad) pokemonListRemoteMediator else null
+
         return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
-            remoteMediator = pokemonListRemoteMediator,
+            config = PagingConfig(pageSize = Int.MAX_VALUE, enablePlaceholders = false),
+            remoteMediator = remoteMediator,
             pagingSourceFactory = pagingSourceFactory
         ).flow.map(::mapPagingData)
     }
 
     private fun mapPagingData(pagingData: PagingData<PokemonEntity>): PagingData<PokemonList> {
         return pagingData.map { mapper.mapToDomain(it) }
-    }
-
-    companion object {
-        const val NETWORK_PAGE_SIZE = 300
     }
 }

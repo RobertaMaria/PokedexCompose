@@ -7,16 +7,10 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 
 @Composable
-fun LoadStateFooter(loadState: CombinedLoadStates) {
+fun LoadStateFooter(loadState: CombinedLoadStates, itemCount: Int) {
     Box(contentAlignment = Alignment.BottomEnd) {
-        when (loadState.refresh) {
-            LoadState.Loading -> LoadingAnimation()
-            else -> {}
-        }
-
-        when (loadState.append) {
-            is LoadState.Loading -> LoadingAnimation()
-            else -> {}
+        if (itemCount == 0 && loadState.refresh is LoadState.Loading) {
+            LoadingAnimation()
         }
     }
 }

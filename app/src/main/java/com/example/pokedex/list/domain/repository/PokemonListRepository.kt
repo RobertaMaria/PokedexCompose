@@ -5,5 +5,9 @@ import com.example.pokedex.list.domain.model.PokemonList
 import kotlinx.coroutines.flow.Flow
 
 fun interface PokemonListRepository {
-    fun listPokemon(searchName: String, searchId: Int?): Flow<PagingData<PokemonList>>
+    fun searchPokemonList(
+        searchText: String,
+        searchId: Int?,
+        isInitialLoad: Boolean
+    ): Flow<PagingData<PokemonList>>
 }

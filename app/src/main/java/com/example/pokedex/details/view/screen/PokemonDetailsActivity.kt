@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.pokedex.details.view.components.DetailsScreen
+import com.example.pokedex.details.view.components.ErrorDialog
 import com.example.pokedex.details.view.viewmodel.PokemonDetailsUiState
 import com.example.pokedex.details.view.viewmodel.PokemonDetailsViewModel
 import com.example.pokedex.list.view.components.LoadingAnimation
@@ -54,7 +55,7 @@ class PokemonDetailsActivity : ComponentActivity() {
             }
 
             is PokemonDetailsUiState.Error -> {
-                // Handle error state
+                ErrorDialog(onDismiss = { finish() })
             }
         }
     }

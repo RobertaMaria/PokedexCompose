@@ -7,9 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 class GetPokemonListUseCase(private val pokemonListRepository: PokemonListRepository) {
     operator fun invoke(
-        searchName: String,
-        searchId: Int?
+        searchText: String,
+        searchId: Int?,
+        isInitialLoad: Boolean
     ): Flow<PagingData<PokemonList>> {
-        return pokemonListRepository.listPokemon(searchName, searchId)
+        return pokemonListRepository.searchPokemonList(
+            searchText = searchText,
+            searchId = searchId,
+            isInitialLoad = isInitialLoad
+        )
     }
 }

@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 data class PokemonListUiState(
     val list: StateFlow<PagingData<PokemonListUi>>,
-    val searchText: String = ""
+    val searchText: String = "",
+    val isInitialLoad: Boolean = true
 )
