@@ -42,7 +42,7 @@ fun HomeScreen(
     val showButton by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val coroutineScope = rememberCoroutineScope()
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxWidth()) {
             SearchTextField(searchText = searchText, onSearchTextChange = onSearchTextChange)
             LazyColumn(
@@ -61,8 +61,16 @@ fun HomeScreen(
                 }
             }
         }
-        LoadStateFooter(pokemonLazyPagingItems.loadState, pokemonLazyPagingItems.itemCount)
-        ScrollToTopButton(listState = listState, showButton = showButton, coroutineScope = coroutineScope)
+        LoadStateFooter(
+            pokemonLazyPagingItems.loadState,
+            pokemonLazyPagingItems.itemCount,
+            modifier = Modifier.align(Alignment.Center)
+        )
+        ScrollToTopButton(
+            listState = listState, showButton = showButton,
+            coroutineScope = coroutineScope,
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 

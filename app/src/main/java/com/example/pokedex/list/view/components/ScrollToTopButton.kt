@@ -21,14 +21,14 @@ import kotlinx.coroutines.launch
 fun ScrollToTopButton(
     listState: LazyListState,
     showButton: Boolean,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    modifier: Modifier = Modifier
 ) {
     AnimatedVisibility(
         visible = showButton,
         enter = fadeIn(),
         exit = fadeOut(),
-        modifier = Modifier
-            .padding(16.dp)
+        modifier = modifier.padding(16.dp)
     ) {
         FloatingActionButton(
             onClick = {
