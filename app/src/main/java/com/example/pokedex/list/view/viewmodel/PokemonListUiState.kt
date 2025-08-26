@@ -1,4 +1,4 @@
-package com.example.pokedex.list.viewmodel
+package com.example.pokedex.list.view.viewmodel
 
 import androidx.paging.PagingData
 import com.example.pokedex.list.view.model.PokemonListUi

@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.pokedex.details.view.screen.PokemonDetailsActivity
 import com.example.pokedex.list.view.components.HomeScreen
-import com.example.pokedex.list.viewmodel.PokemonListViewModel
+import com.example.pokedex.list.view.viewmodel.PokemonListViewModel
 import com.example.pokedex.ui.theme.PokedexTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 private const val SIZE_DEFAULT = 250
@@ -28,7 +29,7 @@ fun PokemonDetailsImage(imageUrl: String, size: Int = SIZE_DEFAULT, modifier: Mo
     Image(
         painter = painter,
         contentDescription = null,
-        modifier = modifier.size(size.dp),
+        modifier = modifier.size(size.dp).testTag("pokemon_image_tag"),
         contentScale = ContentScale.Fit,
     )
 }

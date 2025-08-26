@@ -14,7 +14,7 @@ import com.example.pokedex.R
 fun LoadingItem(rotationLoading: Float) {
     Image(
         painter = painterResource(R.drawable.pokebola),
-        contentDescription = "",
+        contentDescription = "Carregando lista",
         modifier = Modifier
             .rotate(rotationLoading)
             .size(64.dp)

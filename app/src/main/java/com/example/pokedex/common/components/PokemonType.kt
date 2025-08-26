@@ -39,7 +39,7 @@ fun PokemonType(typeColoursEnum: TypeColoursEnum) {
 
             Image(
                 painter = painterResource(id = typeColoursEnum.getDrawableId()),
-                contentDescription = "",
+                contentDescription = typeColoursEnum.getFormattedName(),
                 modifier = Modifier.size(20.dp)
             )
 

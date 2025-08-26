@@ -24,7 +24,7 @@ class PokemonDetailsViewModel(
 
     private fun onPokemonClicked() {
         viewModelScope.launch {
-            useCase.invoke(id)
+            useCase(id)
                 .catch {
                     _uiState.value = PokemonDetailsUiState.Error
                 }

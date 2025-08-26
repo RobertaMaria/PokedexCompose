@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,11 +24,16 @@ fun FeatureHeader(expanded: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .testTag("feature_row_title"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = stringResource(R.string.pokemon_features_title), fontWeight = FontWeight.Bold)
+        Text(
+            text = stringResource(R.string.pokemon_features_title),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.testTag("feature_header_title")
+        )
         Icon(
             imageVector = if (expanded) Icons.Filled.ArrowDropUp else Icons.Filled.ArrowDropDown,
             contentDescription = stringResource(
@@ -37,7 +43,7 @@ fun FeatureHeader(expanded: Boolean, onClick: () -> Unit) {
                     R.string.pokemon_features_content_description_collapse
                 }
             ),
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp).testTag("feature_header_icon")
         )
     }
 }

@@ -67,7 +67,8 @@ fun HomeScreen(
             modifier = Modifier.align(Alignment.Center)
         )
         ScrollToTopButton(
-            listState = listState, showButton = showButton,
+            listState = listState,
+            showButton = showButton,
             coroutineScope = coroutineScope,
             modifier = Modifier.align(Alignment.BottomEnd)
         )

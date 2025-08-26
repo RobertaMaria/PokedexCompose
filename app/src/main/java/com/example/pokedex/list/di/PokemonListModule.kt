@@ -12,7 +12,7 @@ import com.example.pokedex.list.data.repository.PokemonListRepositoryImpl
 import com.example.pokedex.list.domain.repository.PokemonListRepository
 import com.example.pokedex.list.domain.usecase.GetPokemonListUseCase
 import com.example.pokedex.list.view.factory.PokemonListFactory
-import com.example.pokedex.list.viewmodel.PokemonListViewModel
+import com.example.pokedex.list.view.viewmodel.PokemonListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
