@@ -46,5 +46,10 @@ fun App(viewModel: PokemonListViewModel) {
         onClickPokemon = { id ->
             val intent = PokemonDetailsActivity.newInstance(context, id)
             context.startActivity(intent)
-        })
+        },
+        selectedTypes = uiState.selectedTypes,
+        availableTypes = uiState.availableTypes,
+        onTypeToggle = { viewModel.toggleSelectedType(it) },
+        onClearFilters = { viewModel.clearFilters() }
+    )
 }

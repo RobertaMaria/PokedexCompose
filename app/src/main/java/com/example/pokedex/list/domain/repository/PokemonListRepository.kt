@@ -8,6 +8,7 @@ fun interface PokemonListRepository {
     fun searchPokemonList(
         searchText: String,
         searchId: Int?,
+        selectedTypes: List<String>,
         isInitialLoad: Boolean
     ): Flow<PagingData<PokemonList>>
 }

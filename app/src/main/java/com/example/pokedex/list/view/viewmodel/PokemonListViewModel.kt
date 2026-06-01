@@ -32,15 +32,33 @@ class PokemonListViewModel(
         getPokemonList()
     }
 
+    fun toggleSelectedType(type: String) {
+        val currentTypes = _uiState.value.selectedTypes.toMutableList()
+        if (currentTypes.contains(type)) {
+            currentTypes.remove(type)
+        } else {
+            currentTypes.add(type)
+        }
+        _uiState.value = _uiState.value.copy(selectedTypes = currentTypes, isInitialLoad = false)
+        getPokemonList()
+    }
+
+    fun clearFilters() {
+        _uiState.value = _uiState.value.copy(selectedTypes = emptyList(), isInitialLoad = false)
+        getPokemonList()
+    }
+
     private fun getPokemonList() {
         viewModelScope.launch {
             val searchText = _uiState.value.searchText
+            val selectedTypes = _uiState.value.selectedTypes
             val isInitialLoad = _uiState.value.isInitialLoad
             val searchId = searchText.toIntOrNull()
 
             getPokemonListUseCase(
                 searchText = searchText,
                 searchId = searchId,
+                selectedTypes = selectedTypes,
                 isInitialLoad = isInitialLoad
             )
                 .cachedIn(viewModelScope)

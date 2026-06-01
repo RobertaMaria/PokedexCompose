@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.example.pokedex.list.data.database.entity.PokemonEntity
 
 @Dao
@@ -18,9 +20,6 @@ interface PokemonDao {
     @Query("SELECT * FROM pokemon_table WHERE id = :pokemonId")
     fun getPokemonById(pokemonId: Int): PokemonEntity?
 
-    @Query("SELECT * FROM pokemon_table WHERE name LIKE '%' || :name || '%'")
-    fun getPokemonByName(name: String): PagingSource<Int, PokemonEntity>
-
-    @Query("SELECT * FROM pokemon_table WHERE id = :pokemonId")
-    fun getPagingSourceById(pokemonId: Int): PagingSource<Int, PokemonEntity>
+    @RawQuery(observedEntities = [PokemonEntity::class])
+    fun getPokemonByDynamicTypes(query: SupportSQLiteQuery): PagingSource<Int, PokemonEntity>
 }

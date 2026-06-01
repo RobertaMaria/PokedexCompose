@@ -1,8 +1,8 @@
 package com.example.pokedex.list.view.components
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -15,12 +15,16 @@ import androidx.compose.ui.unit.dp
 import com.example.pokedex.R
 
 @Composable
-fun SearchTextField(searchText: String, onSearchTextChange: (String) -> Unit) {
+fun SearchTextField(
+    searchText: String,
+    onSearchTextChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     TextField(
         value = searchText,
         onValueChange = onSearchTextChange,
         label = { Text(stringResource(R.string.pokemon_list_search_hint)) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.padding(8.dp),
         trailingIcon = {
             if (searchText.isNotEmpty()) {
                 IconButton(onClick = { onSearchTextChange("") }) {

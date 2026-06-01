@@ -5,10 +5,11 @@
     <string name="pokemon_list_weight">Peso</string>
     <string name="pokemon_list_Height_format">m</string>
     <string name="pokemon_list_Height">Altura</string>
-    <string name="pokemon_list_search_hint">Buscar por nome ou id</string>
+    <string name="pokemon_list_search_hint">Nome ou id</string>
     <string name="pokemon_list_search_content_description">Clean</string>
     <string name="pokemon_list_scroll_top_button_content_description">Voltar ao topo</string>
     <string name="pokemon_list_search_empty_list">Nenhum Pokémon encontrado!</string>
+    <string name="pokemon_list_type_filter_count">Tipos</string>
     <string name="pokemon_details_error_title">Opa! Algo deu errado.</string>
     <string name="pokemon_details_error_subtitle">Detalhes do pokémon não encontrados.</string>
     <string name="pokemon_details_button_title">OK</string>

@@ -9,11 +9,13 @@ class GetPokemonListUseCase(private val pokemonListRepository: PokemonListReposi
     operator fun invoke(
         searchText: String,
         searchId: Int?,
+        selectedTypes: List<String>,
         isInitialLoad: Boolean
     ): Flow<PagingData<PokemonList>> {
         return pokemonListRepository.searchPokemonList(
             searchText = searchText,
             searchId = searchId,
+            selectedTypes = selectedTypes,
             isInitialLoad = isInitialLoad
         )
     }
