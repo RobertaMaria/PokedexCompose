@@ -42,7 +42,6 @@ android {
 }
 
 dependencies {
-
     // Core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -75,7 +74,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.ui.test.junit4.v2)
     testImplementation(libs.mockk)
     testImplementation(libs.arch.core)
     testImplementation(libs.kotlinx.coroutines.test)

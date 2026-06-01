@@ -1,3 +1,5 @@
+package com.example.pokedex.list.view.components
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -9,7 +11,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.pokedex.list.view.components.SearchTextField
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +23,7 @@ class SearchTextFieldTest {
 
     @Test
     fun searchTextField_displaysHint_whenEmpty() {
-        val hintText = "Buscar por nome ou id"
+        val hintText = "Nome ou id"
 
         composeTestRule.setContent {
             var text by remember { mutableStateOf("") }
@@ -44,7 +45,7 @@ class SearchTextFieldTest {
                 onSearchTextChange = { newText -> text = newText }
             )
         }
-        val hintText = "Buscar por nome ou id"
+        val hintText = "Nome ou id"
         composeTestRule.onNodeWithText(hintText).performTextInput(inputText)
         composeTestRule.onNodeWithText(inputText).assertIsDisplayed()
     }
@@ -61,7 +62,7 @@ class SearchTextFieldTest {
                 onSearchTextChange = { newText -> text = newText }
             )
         }
-        val hintText = "Buscar por nome ou id"
+        val hintText = "Nome ou id"
         composeTestRule.onNodeWithText(hintText).performTextInput(inputText)
 
         composeTestRule.onNodeWithText(inputText).assertIsDisplayed()

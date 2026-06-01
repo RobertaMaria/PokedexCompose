@@ -18,6 +18,7 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import com.example.pokedex.stub.createMockPagingSource
 
 @ExperimentalCoroutinesApi
 class PokemonListLocalDataSourceImpTest {
@@ -117,5 +118,98 @@ class PokemonListLocalDataSourceImpTest {
 
         // Then
         coVerify(exactly = 1) { mockRemoteKeysDao.insertAll(remoteKeysEntities) }
+    }
+
+    @Test
+    fun `getAllPokemon WHEN called THEN calls pokemonDao getAll`() {
+        // Given
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getAll() } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getAllPokemon()
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getAll() }
+    }
+
+    @Test
+    fun `getTypeQueryWithId WHEN selectedTypes is empty THEN calls getPokemonByDynamicTypes with id only query`() {
+        // Given
+        val searchId = 25
+        val selectedTypes = emptyList<String>()
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getPokemonByDynamicTypes(any()) } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getTypeQueryWithId(searchId, selectedTypes)
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getPokemonByDynamicTypes(any()) }
+    }
+
+    @Test
+    fun `getTypeQueryWithId WHEN selectedTypes provided THEN calls getPokemonByDynamicTypes with id and types query`() {
+        // Given
+        val searchId = 25
+        val selectedTypes = listOf("fire", "water")
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getPokemonByDynamicTypes(any()) } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getTypeQueryWithId(searchId, selectedTypes)
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getPokemonByDynamicTypes(any()) }
+    }
+
+    @Test
+    fun `getTypeQueryWithName WHEN selectedTypes is empty THEN calls getPokemonByDynamicTypes with name only query`() {
+        // Given
+        val searchName = "pikachu"
+        val selectedTypes = emptyList<String>()
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getPokemonByDynamicTypes(any()) } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getTypeQueryWithName(searchName, selectedTypes)
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getPokemonByDynamicTypes(any()) }
+    }
+
+    @Test
+    fun `getTypeQueryWithName WHEN selectedTypes provided THEN calls getPokemonByDynamicTypes with name and types query`() {
+        // Given
+        val searchName = "pikachu"
+        val selectedTypes = listOf("electric")
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getPokemonByDynamicTypes(any()) } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getTypeQueryWithName(searchName, selectedTypes)
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getPokemonByDynamicTypes(any()) }
+    }
+
+    @Test
+    fun `getByDynamicTypes WHEN called with selected types THEN calls getPokemonByDynamicTypes`() {
+        // Given
+        val selectedTypes = listOf("fire", "water", "grass")
+        val mockPagingSource = createMockPagingSource<PokemonEntity>()
+        every { mockPokemonDao.getPokemonByDynamicTypes(any()) } returns mockPagingSource
+
+        // When
+        val result = localDataSource.getByDynamicTypes(selectedTypes)
+
+        // Then
+        assertEquals(mockPagingSource, result)
+        verify(exactly = 1) { mockPokemonDao.getPokemonByDynamicTypes(any()) }
     }
 }

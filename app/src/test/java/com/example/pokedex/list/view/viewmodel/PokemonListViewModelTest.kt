@@ -1,6 +1,5 @@
 package com.example.pokedex.list.view.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.example.pokedex.list.domain.model.PokemonList
@@ -22,9 +21,6 @@ import org.junit.Test
 
 class PokemonListViewModelTest {
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
@@ -39,6 +35,12 @@ class PokemonListViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+
+        coEvery {
+            getPokemonListUseCase(any(), any(), any(), any())
+        } returns flowOf(PagingData.from(emptyList<PokemonList>()))
+
+        viewModel = PokemonListViewModel(getPokemonListUseCase, factory)
     }
 
     @Test
@@ -65,12 +67,12 @@ class PokemonListViewModelTest {
                 getPokemonListUseCase(
                     searchText = "",
                     searchId = null,
+                    selectedTypes = emptyList(),
                     isInitialLoad = true
                 )
             } returns flowOf(mockPagingDataDomain)
 
             every { factory(mockPokemonDomain) } returns expectedPokemonUi
-            viewModel = PokemonListViewModel(getPokemonListUseCase, factory)
 
             // Then
             viewModel.uiState.test {
@@ -78,5 +80,70 @@ class PokemonListViewModelTest {
                 Assert.assertEquals("", initialState.searchText)
                 Assert.assertTrue(initialState.isInitialLoad)
             }
+        }
+
+    @Test
+    fun `when setSearchText is called, then searchText is updated in uiState`() =
+        runTest {
+            // Given
+            val searchText = "Pikachu"
+
+            // When
+            viewModel.setSearchText(searchText)
+
+            // Then
+            val currentState = viewModel.uiState.value
+            Assert.assertEquals(searchText, currentState.searchText)
+            Assert.assertFalse(currentState.isInitialLoad)
+        }
+
+    @Test
+    fun `when toggleSelectedType is called, then selectedType is added to list`() =
+        runTest {
+            // Given
+            val typeToToggle = "fire"
+
+            // When
+            viewModel.toggleSelectedType(typeToToggle)
+
+            // Then
+            val currentState = viewModel.uiState.value
+            Assert.assertEquals(listOf(typeToToggle), currentState.selectedTypes)
+            Assert.assertFalse(currentState.isInitialLoad)
+        }
+
+    @Test
+    fun `when toggleSelectedType is called twice with same type, then type is removed`() =
+        runTest {
+            // Given
+            val typeToToggle = "fire"
+
+            // When
+            viewModel.toggleSelectedType(typeToToggle) // Add
+            viewModel.toggleSelectedType(typeToToggle) // Remove
+
+            // Then
+            val currentState = viewModel.uiState.value
+            Assert.assertEquals(emptyList<String>(), currentState.selectedTypes)
+        }
+
+    @Test
+    fun `when clearFilters is called, then selectedTypes is cleared`() =
+        runTest {
+            // Setup: Add some types first
+            viewModel.toggleSelectedType("fire")
+            viewModel.toggleSelectedType("water")
+
+            // Verify types were added
+            var currentState = viewModel.uiState.value
+            Assert.assertEquals(2, currentState.selectedTypes.size)
+
+            // When
+            viewModel.clearFilters()
+
+            // Then
+            currentState = viewModel.uiState.value
+            Assert.assertEquals(emptyList<String>(), currentState.selectedTypes)
+            Assert.assertFalse(currentState.isInitialLoad)
         }
 }
