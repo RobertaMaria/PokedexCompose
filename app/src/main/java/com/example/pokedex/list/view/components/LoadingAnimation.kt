@@ -11,10 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 
 private const val TARGET_VALUE = 360f
 private const val DURATION = 2000
 private const val INITIAL_VALUE = 0f
+
+const val LOADING_ANIMATION_TEST_TAG = "LoadingAnimationTag"
+const val LOADING_ANIMATION_BOX_TEST_TAG = "LoadingAnimationBoxTag"
 
 @Composable
 fun LoadingAnimation(
@@ -30,10 +34,19 @@ fun LoadingAnimation(
         initialValue = INITIAL_VALUE
     )
 
-    val loadingItem = @Composable { LoadingItem(rotation) }
+    val loadingItem = @Composable {
+        Box(modifier = Modifier.testTag(LOADING_ANIMATION_TEST_TAG)) {
+            LoadingItem(rotation)
+        }
+    }
 
     if (isCentered) {
-        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .testTag(LOADING_ANIMATION_BOX_TEST_TAG),
+            contentAlignment = Alignment.Center
+        ) {
             loadingItem()
         }
     } else {
