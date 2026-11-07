@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Pokedex</string>
+    <string name="bottom_nav_home">Início</string>
+    <string name="bottom_nav_search">Buscar</string>
+    <string name="bottom_nav_favorites">Favoritos</string>
+    <string name="favorites_empty_message">Nenhum Pokémon favoritado ainda!</string>
     <string name="pokemon_list_id_format">#%03d</string>
     <string name="pokemon_list_weight_format">Kg</string>
     <string name="pokemon_list_weight">Peso</string>

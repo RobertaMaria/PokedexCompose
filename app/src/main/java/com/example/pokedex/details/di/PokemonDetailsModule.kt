@@ -36,8 +36,8 @@ val detailsModule = module {
     single<PokemonDetailsRepository> {
         PokemonDetailsRepositoryImp(get(), get(), get())
     }
-    // Use Cases
 
+    // Use Cases
     factory { GetPokemonDetailsUseCase(get()) }
 
     // Factories
@@ -46,7 +46,10 @@ val detailsModule = module {
     // ViewModels
     viewModel { (id: Int) ->
         PokemonDetailsViewModel(
-            id = id, useCase = get(), factory = get()
+            id = id,
+            useCase = get(),
+            factory = get(),
+            favoriteDao = get()
         )
     }
 }

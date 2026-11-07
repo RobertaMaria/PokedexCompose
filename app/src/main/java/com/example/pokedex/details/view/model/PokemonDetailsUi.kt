@@ -12,6 +12,7 @@ data class PokemonDetailsUi(
     val stats: List<PokemonStats> = listOf(),
     val evolutions: List<Evolutions> = listOf(),
     val isLoaded: Boolean = false,
+    val isFavorite: Boolean = false,
     val doubleDamage: List<TypeColoursEnum> = listOf(),
     val noDamage: List<TypeColoursEnum> = listOf(),
     val featuresUi: FeaturesUi

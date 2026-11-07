@@ -47,7 +47,11 @@ class PokemonDetailsActivity : ComponentActivity() {
                     pokemonDetailsUi = (uiState as PokemonDetailsUiState.Success).pokemonDetailsUi,
                     onClickEvolution = { id ->
                         viewModel.onEvolutionClicked(id)
-                    })
+                    },
+                    onToggleFavorite = {
+                        viewModel.toggleFavorite()
+                    }
+                )
             }
 
             is PokemonDetailsUiState.Loading -> {

@@ -11,9 +11,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,9 +38,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.rememberAsyncImagePainter
 import com.example.pokedex.R
 import com.example.pokedex.common.components.PokemonType
+import com.example.pokedex.common.model.TypeColoursEnum
 import com.example.pokedex.list.view.factory.PokemonMeasureData
 import com.example.pokedex.list.view.model.PokemonListUi
-import com.example.pokedex.common.model.TypeColoursEnum
 import com.example.pokedex.ui.theme.PokedexTheme
 import com.example.pokedex.utils.formatPokemonId
 
@@ -42,7 +48,8 @@ import com.example.pokedex.utils.formatPokemonId
 @Composable
 fun PokemonItem(
     pokemon: PokemonListUi,
-    onClickPokemon: (id: Int) -> Unit = {}
+    onClickPokemon: (id: Int) -> Unit = {},
+    onRemoveFavorite: ((id: Int) -> Unit)? = null
 ) {
     Card(
         modifier = Modifier.clickable { onClickPokemon(pokemon.id) },
@@ -61,10 +68,10 @@ fun PokemonItem(
                     )
                 )
                 .padding(8.dp)
-                .heightIn(min = 150.dp, max = 180.dp)
+                .heightIn(min = 150.dp)
         ) {
 
-            val (image, id, name, types, listOfMeasurements) = createRefs()
+            val (image, id, name, types, listOfMeasurements, favoriteButton) = createRefs()
 
             Image(
                 modifier = Modifier
@@ -141,6 +148,25 @@ fun PokemonItem(
                         measureFormatted = measureFormatted,
                         iconTitle = stringResource(descriptionId),
                         iconId = iconId
+                    )
+                }
+            }
+
+            if (onRemoveFavorite != null) {
+                SmallFloatingActionButton(
+                    onClick = { onRemoveFavorite(pokemon.id) },
+                    shape = CircleShape,
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    contentColor = Color.Red,
+                    modifier = Modifier.constrainAs(favoriteButton) {
+                        top.linkTo(listOfMeasurements.bottom, margin = 8.dp)
+                        end.linkTo(parent.end, margin = 8.dp)
+                        bottom.linkTo(parent.bottom, margin = 4.dp)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Remover dos favoritos"
                     )
                 }
             }

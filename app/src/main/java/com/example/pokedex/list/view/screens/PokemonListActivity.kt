@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.pokedex.details.view.screen.PokemonDetailsActivity
-import com.example.pokedex.list.view.components.HomeScreen
+import com.example.pokedex.list.view.components.MainScreen
 import com.example.pokedex.list.view.viewmodel.PokemonListViewModel
 import com.example.pokedex.ui.theme.PokedexTheme
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -38,9 +38,13 @@ class PokemonListActivity : ComponentActivity() {
 fun App(viewModel: PokemonListViewModel) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val homeLazyPagingItems = viewModel.homePokemonList.collectAsLazyPagingItems()
+    val searchLazyPagingItems = viewModel.searchPokemonList.collectAsLazyPagingItems()
+    val favoritePokemons by viewModel.favoritePokemons.collectAsState()
 
-    HomeScreen(
-        pokemonLazyPagingItems = uiState.list.collectAsLazyPagingItems(),
+    MainScreen(
+        homeLazyPagingItems = homeLazyPagingItems,
+        searchLazyPagingItems = searchLazyPagingItems,
         onSearchTextChange = { viewModel.setSearchText(it) },
         searchText = uiState.searchText,
         onClickPokemon = { id ->
@@ -49,6 +53,8 @@ fun App(viewModel: PokemonListViewModel) {
         },
         selectedTypes = uiState.selectedTypes,
         availableTypes = uiState.availableTypes,
+        favoritePokemons = favoritePokemons,
+        onRemoveFavorite = { viewModel.removeFavorite(it) },
         onTypeToggle = { viewModel.toggleSelectedType(it) },
         onClearFilters = { viewModel.clearFilters() }
     )

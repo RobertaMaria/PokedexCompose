@@ -52,5 +52,5 @@ val listModule = module {
     factory { PokemonListFactory(androidContext()) }
 
     // ViewModels
-    viewModel { PokemonListViewModel(get(), get()) }
+    viewModel { PokemonListViewModel(get(), get(), get(), get()) }
 }

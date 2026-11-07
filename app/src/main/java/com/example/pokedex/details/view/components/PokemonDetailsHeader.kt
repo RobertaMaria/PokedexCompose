@@ -14,7 +14,10 @@ import androidx.compose.ui.unit.sp
 import com.example.pokedex.utils.formatPokemonId
 
 @Composable
-fun PokemonDetailsHeader(name: String, id: Int) {
+fun PokemonDetailsHeader(
+    name: String,
+    id: Int
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

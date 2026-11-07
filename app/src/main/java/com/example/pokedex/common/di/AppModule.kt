@@ -8,6 +8,7 @@ import org.koin.dsl.module
 val appModule = module {
     // Database
     single { AppDataBase.getDatabase(androidContext()) }
+    factory { get<AppDataBase>().favoriteDao() }
 
     // Network
     single { RetrofitConfig.instance }

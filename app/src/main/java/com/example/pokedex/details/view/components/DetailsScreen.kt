@@ -24,7 +24,8 @@ import com.example.pokedex.ui.theme.PokedexTheme
 @Composable
 fun DetailsScreen(
     pokemonDetailsUi: PokemonDetailsUi,
-    onClickEvolution: (id: Int) -> Unit = {}
+    onClickEvolution: (id: Int) -> Unit = {},
+    onToggleFavorite: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -44,7 +45,10 @@ fun DetailsScreen(
                     )
                 )
         ) {
-            PokemonDetails(pokemonDetailsUi = pokemonDetailsUi)
+            PokemonDetails(
+                pokemonDetailsUi = pokemonDetailsUi,
+                onToggleFavorite = onToggleFavorite
+            )
 
             if (pokemonDetailsUi.isLoaded) {
                 Box(
