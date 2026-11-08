@@ -197,7 +197,8 @@ fun SearchScreen(
             ) {
                 items(
                     count = pokemonLazyPagingItems.itemCount,
-                    key = pokemonLazyPagingItems.itemKey { it.id }
+                    key = pokemonLazyPagingItems.itemKey { it.id },
+                    contentType = { "pokemon_item" }
                 ) { index ->
                     pokemonLazyPagingItems[index]?.let { pokemon ->
                         PokemonItem(pokemon = pokemon, onClickPokemon = onClickPokemon)

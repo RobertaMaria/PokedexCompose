@@ -33,7 +33,10 @@ fun ScrollToTopButton(
         FloatingActionButton(
             onClick = {
                 coroutineScope.launch {
-                    listState.scrollToItem(0)
+                    if (listState.firstVisibleItemIndex > 3) {
+                        listState.scrollToItem(3)
+                    }
+                    listState.animateScrollToItem(0)
                 }
             },
         ) {
