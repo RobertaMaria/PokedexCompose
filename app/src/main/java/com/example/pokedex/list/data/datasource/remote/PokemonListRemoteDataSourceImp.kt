@@ -12,4 +12,8 @@ class PokemonListRemoteDataSourceImp(private val service: PokemonListService): P
     override suspend fun getDetailsPokemon(id: Int): PokemonDetailsResponse {
         return service.getDetailsPokemon(id)
     }
+
+    override suspend fun getDetailsPokemonByNameOrId(query: String): PokemonDetailsResponse {
+        return service.getDetailsPokemonByNameOrId(query)
+    }
 }

@@ -29,6 +29,15 @@ class PokemonListRemoteMediator(
     private val mapper: PokemonListMapper,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RemoteMediator<Int, PokemonEntity>() {
+
+    override suspend fun initialize(): InitializeAction {
+        return if (localDataSource.getRemoteKeysId(1) != null) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+    }
+
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     override suspend fun load(
         loadType: LoadType,
@@ -87,8 +96,11 @@ class PokemonListRemoteMediator(
 
     private suspend fun getPage(loadType: LoadType, state: PagingState<Int, PokemonEntity>): Int? {
         return when (loadType) {
-            LoadType.REFRESH -> getRemoteKeyClosestToCurrentPosition(state)?.nextKey?.minus(1)
-                ?: POKEMON_STARTING_PAGE_INDEX
+            LoadType.REFRESH -> {
+                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                remoteKeys?.nextKey?.minus(state.config.pageSize)?.coerceAtLeast(0)
+                    ?: POKEMON_STARTING_PAGE_INDEX
+            }
 
             LoadType.APPEND -> getRemoteKeyForLastItem(state)?.nextKey
 
@@ -105,16 +117,14 @@ class PokemonListRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, PokemonEntity>): RemoteKeysEntity? {
-        return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { item ->
-                localDataSource.getRemoteKeysId(item.id)
-            }
+        return state.pages.flatMap { it.data }.reversed().firstNotNullOfOrNull { item ->
+            localDataSource.getRemoteKeysId(item.id)
+        }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, PokemonEntity>): RemoteKeysEntity? {
-        return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { item ->
-                localDataSource.getRemoteKeysId(item.id)
-            }
+        return state.pages.flatMap { it.data }.firstNotNullOfOrNull { item ->
+            localDataSource.getRemoteKeysId(item.id)
+        }
     }
 }

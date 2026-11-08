@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -22,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,35 +52,41 @@ fun MainScreen(
     val items = listOf(BottomNavItem.Home, BottomNavItem.Search, BottomNavItem.Favorites)
     val selectedTab = items.find { it.route == selectedTabRoute } ?: BottomNavItem.Home
 
+    val homeListState = rememberSaveable(saver = LazyListState.Saver) { LazyListState() }
+    val saveableStateHolder = rememberSaveableStateHolder()
+
     Box(modifier = Modifier.fillMaxSize()) {
-        when (selectedTab) {
-            BottomNavItem.Home -> {
-                HomeScreen(
-                    pokemonLazyPagingItems = homeLazyPagingItems,
-                    onClickPokemon = onClickPokemon,
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-            BottomNavItem.Search -> {
-                SearchScreen(
-                    pokemonLazyPagingItems = searchLazyPagingItems,
-                    onSearchTextChange = onSearchTextChange,
-                    searchText = searchText,
-                    modifier = Modifier.fillMaxSize(),
-                    onClickPokemon = onClickPokemon,
-                    selectedTypes = selectedTypes,
-                    availableTypes = availableTypes,
-                    onTypeToggle = onTypeToggle,
-                    onClearFilters = onClearFilters
-                )
-            }
-            BottomNavItem.Favorites -> {
-                FavoritesScreen(
-                    favoritePokemons = favoritePokemons,
-                    onClickPokemon = onClickPokemon,
-                    onRemoveFavorite = onRemoveFavorite,
-                    modifier = Modifier.fillMaxSize()
-                )
+        saveableStateHolder.SaveableStateProvider(key = selectedTab.route) {
+            when (selectedTab) {
+                BottomNavItem.Home -> {
+                    HomeScreen(
+                        pokemonLazyPagingItems = homeLazyPagingItems,
+                        onClickPokemon = onClickPokemon,
+                        modifier = Modifier.fillMaxSize(),
+                        listState = homeListState
+                    )
+                }
+                BottomNavItem.Search -> {
+                    SearchScreen(
+                        pokemonLazyPagingItems = searchLazyPagingItems,
+                        onSearchTextChange = onSearchTextChange,
+                        searchText = searchText,
+                        modifier = Modifier.fillMaxSize(),
+                        onClickPokemon = onClickPokemon,
+                        selectedTypes = selectedTypes,
+                        availableTypes = availableTypes,
+                        onTypeToggle = onTypeToggle,
+                        onClearFilters = onClearFilters
+                    )
+                }
+                BottomNavItem.Favorites -> {
+                    FavoritesScreen(
+                        favoritePokemons = favoritePokemons,
+                        onClickPokemon = onClickPokemon,
+                        onRemoveFavorite = onRemoveFavorite,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
             }
         }
 

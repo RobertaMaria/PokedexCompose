@@ -12,4 +12,8 @@ interface PokemonListRemoteDataSource {
     suspend fun getDetailsPokemon(
         id: Int
     ): PokemonDetailsResponse
+
+    suspend fun getDetailsPokemonByNameOrId(
+        query: String
+    ): PokemonDetailsResponse
 }

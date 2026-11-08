@@ -2,6 +2,8 @@ package com.example.pokedex.list.view.viewmodel
 
 import androidx.paging.PagingData
 import app.cash.turbine.test
+import com.example.pokedex.common.database.dao.FavoriteDao
+import com.example.pokedex.list.data.mapper.PokemonListMapper
 import com.example.pokedex.list.domain.model.PokemonList
 import com.example.pokedex.list.domain.usecase.GetPokemonListUseCase
 import com.example.pokedex.list.view.factory.PokemonListFactory
@@ -30,6 +32,13 @@ class PokemonListViewModelTest {
 
     @MockK
     private lateinit var factory: PokemonListFactory
+
+    @MockK
+    private lateinit var favoriteDao: FavoriteDao
+
+    @MockK
+    private lateinit var mapper: PokemonListMapper
+
     private lateinit var viewModel: PokemonListViewModel
 
     @Before
@@ -40,13 +49,14 @@ class PokemonListViewModelTest {
             getPokemonListUseCase(any(), any(), any(), any())
         } returns flowOf(PagingData.from(emptyList<PokemonList>()))
 
-        viewModel = PokemonListViewModel(getPokemonListUseCase, factory)
+        coEvery { favoriteDao.getFavoritePokemons() } returns flowOf(emptyList())
+
+        viewModel = PokemonListViewModel(getPokemonListUseCase, factory, favoriteDao, mapper)
     }
 
     @Test
     fun `given initial load, when viewModel is initialized, then getPokemonListUseCase is called and uiState is updated`() =
         runTest {
-            // Given
             val mockPokemonDomain = PokemonList(
                 id = 1,
                 name = "Bulbasaur",
@@ -74,7 +84,6 @@ class PokemonListViewModelTest {
 
             every { factory(mockPokemonDomain) } returns expectedPokemonUi
 
-            // Then
             viewModel.uiState.test {
                 val initialState = awaitItem()
                 Assert.assertEquals("", initialState.searchText)
@@ -85,13 +94,10 @@ class PokemonListViewModelTest {
     @Test
     fun `when setSearchText is called, then searchText is updated in uiState`() =
         runTest {
-            // Given
             val searchText = "Pikachu"
 
-            // When
             viewModel.setSearchText(searchText)
 
-            // Then
             val currentState = viewModel.uiState.value
             Assert.assertEquals(searchText, currentState.searchText)
             Assert.assertFalse(currentState.isInitialLoad)
@@ -100,13 +106,10 @@ class PokemonListViewModelTest {
     @Test
     fun `when toggleSelectedType is called, then selectedType is added to list`() =
         runTest {
-            // Given
             val typeToToggle = "fire"
 
-            // When
             viewModel.toggleSelectedType(typeToToggle)
 
-            // Then
             val currentState = viewModel.uiState.value
             Assert.assertEquals(listOf(typeToToggle), currentState.selectedTypes)
             Assert.assertFalse(currentState.isInitialLoad)
@@ -115,14 +118,11 @@ class PokemonListViewModelTest {
     @Test
     fun `when toggleSelectedType is called twice with same type, then type is removed`() =
         runTest {
-            // Given
             val typeToToggle = "fire"
 
-            // When
-            viewModel.toggleSelectedType(typeToToggle) // Add
-            viewModel.toggleSelectedType(typeToToggle) // Remove
+            viewModel.toggleSelectedType(typeToToggle)
+            viewModel.toggleSelectedType(typeToToggle)
 
-            // Then
             val currentState = viewModel.uiState.value
             Assert.assertEquals(emptyList<String>(), currentState.selectedTypes)
         }
@@ -130,18 +130,14 @@ class PokemonListViewModelTest {
     @Test
     fun `when clearFilters is called, then selectedTypes is cleared`() =
         runTest {
-            // Setup: Add some types first
             viewModel.toggleSelectedType("fire")
             viewModel.toggleSelectedType("water")
 
-            // Verify types were added
             var currentState = viewModel.uiState.value
             Assert.assertEquals(2, currentState.selectedTypes.size)
 
-            // When
             viewModel.clearFilters()
 
-            // Then
             currentState = viewModel.uiState.value
             Assert.assertEquals(emptyList<String>(), currentState.selectedTypes)
             Assert.assertFalse(currentState.isInitialLoad)

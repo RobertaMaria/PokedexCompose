@@ -22,20 +22,20 @@ fun ScrollToTopButton(
     listState: LazyListState,
     showButton: Boolean,
     coroutineScope: CoroutineScope,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     AnimatedVisibility(
         visible = showButton,
         enter = fadeIn(),
         exit = fadeOut(),
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(16.dp),
     ) {
         FloatingActionButton(
             onClick = {
                 coroutineScope.launch {
                     listState.scrollToItem(0)
                 }
-            }
+            },
         ) {
             Icon(
                 Icons.Default.ArrowUpward,

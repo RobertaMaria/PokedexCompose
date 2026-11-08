@@ -11,7 +11,7 @@ import com.example.pokedex.list.data.database.entity.PokemonEntity
 
 @Dao
 interface PokemonDao {
-    @Query("SELECT * FROM pokemon_table")
+    @Query("SELECT * FROM pokemon_table ORDER BY id ASC")
     fun getAll(): PagingSource<Int, PokemonEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

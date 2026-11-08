@@ -77,6 +77,7 @@ class PokemonListRemoteDataSourceImpTest {
             // Given
             val pokemonId = 1
             val expectedDetailsResponse = PokemonDetailsResponse(
+                id = pokemonId,
                 name = "bulbasaur",
                 height = 7,
                 weight = 69,

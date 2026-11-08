@@ -74,6 +74,30 @@ class PokemonListLocalDataSourceImpTest {
     }
 
     @Test
+    fun `getPokemonById WHEN called THEN calls pokemonDao getPokemonById`() = runTest {
+        // Given
+        val pokemonId = 25
+        val expectedEntity = PokemonEntity(
+            id = pokemonId,
+            name = "Pikachu",
+            image = "",
+            height = 4,
+            weight = 60,
+            type = listOf("electric"),
+            stats = emptyList(),
+            abilities = emptyList()
+        )
+        every { mockPokemonDao.getPokemonById(pokemonId) } returns expectedEntity
+
+        // When
+        val actualEntity = localDataSource.getPokemonById(pokemonId)
+
+        // Then
+        assertEquals(expectedEntity, actualEntity)
+        verify(exactly = 1) { mockPokemonDao.getPokemonById(pokemonId) }
+    }
+
+    @Test
     fun `getRemoteKeysId WHEN dao returns key THEN returns RemoteKeysEntity`() = runTest {
         // Given
         val itemId = 1

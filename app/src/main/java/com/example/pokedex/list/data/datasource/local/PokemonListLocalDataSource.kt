@@ -6,6 +6,7 @@ import com.example.pokedex.list.data.database.entity.RemoteKeysEntity
 
 interface PokemonListLocalDataSource {
     fun insertAll(list: List<PokemonEntity>)
+    suspend fun getPokemonById(pokemonId: Int): PokemonEntity?
     suspend fun getRemoteKeysId(item: Int): RemoteKeysEntity?
     suspend fun saveAllRemoteKey(remoteKeys: List<RemoteKeysEntity>)
     fun getTypeQueryWithId(

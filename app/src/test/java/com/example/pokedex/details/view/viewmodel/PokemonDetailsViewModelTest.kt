@@ -2,6 +2,7 @@ package com.example.pokedex.details.view.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import app.cash.turbine.test
+import com.example.pokedex.common.database.dao.FavoriteDao
 import com.example.pokedex.details.domain.model.PokemonDetails
 import com.example.pokedex.details.domain.model.Features
 import com.example.pokedex.details.domain.usecase.GetPokemonDetailsUseCase
@@ -36,6 +37,9 @@ class PokemonDetailsViewModelTest {
     @MockK
     private lateinit var pokemonDetailsFactory: PokemonDetailsFactory
 
+    @MockK
+    private lateinit var favoriteDao: FavoriteDao
+
     private lateinit var viewModel: PokemonDetailsViewModel
 
     private val fakePokemonId = 1
@@ -68,6 +72,7 @@ class PokemonDetailsViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        coEvery { favoriteDao.isFavorite(any()) } returns flowOf(false)
     }
 
     @Test
@@ -84,7 +89,8 @@ class PokemonDetailsViewModelTest {
             viewModel = PokemonDetailsViewModel(
                 fakePokemonId,
                 getPokemonDetailsUseCase,
-                pokemonDetailsFactory
+                pokemonDetailsFactory,
+                favoriteDao
             )
 
             //Then
@@ -110,7 +116,7 @@ class PokemonDetailsViewModelTest {
         every { pokemonDetailsFactory.invoke(any()) } returns mockk()
 
         // When
-        viewModel = PokemonDetailsViewModel(fakePokemonId, getPokemonDetailsUseCase, pokemonDetailsFactory)
+        viewModel = PokemonDetailsViewModel(fakePokemonId, getPokemonDetailsUseCase, pokemonDetailsFactory, favoriteDao)
 
         //Then
         viewModel.uiState.test {
@@ -134,7 +140,7 @@ class PokemonDetailsViewModelTest {
         every { pokemonDetailsFactory.invoke(fakePokemonDetailsDomain) } returns fakePokemonDetailsUi
         // When
         viewModel =
-            PokemonDetailsViewModel(fakePokemonId, getPokemonDetailsUseCase, pokemonDetailsFactory)
+            PokemonDetailsViewModel(fakePokemonId, getPokemonDetailsUseCase, pokemonDetailsFactory, favoriteDao)
 
 
         // Then

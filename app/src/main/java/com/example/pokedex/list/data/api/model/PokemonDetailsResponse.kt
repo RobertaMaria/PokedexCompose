@@ -3,6 +3,7 @@ package com.example.pokedex.list.data.api.model
 import com.google.gson.annotations.SerializedName
 
 data class PokemonDetailsResponse(
+    @SerializedName("id") val id: Int,
     @SerializedName("sprites") val image: ImageResponse,
     @SerializedName("name") val name: String,
     @SerializedName("height") val height: Int,

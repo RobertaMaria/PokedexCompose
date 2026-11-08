@@ -17,4 +17,9 @@ interface PokemonListService {
     suspend fun getDetailsPokemon(
         @Path("id") id: Int
     ): PokemonDetailsResponse
+
+    @GET("pokemon/{query}")
+    suspend fun getDetailsPokemonByNameOrId(
+        @Path("query") query: String
+    ): PokemonDetailsResponse
 }

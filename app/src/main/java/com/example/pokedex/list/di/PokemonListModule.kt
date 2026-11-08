@@ -37,8 +37,9 @@ val listModule = module {
     single<PokemonListRepository> {
         PokemonListRepositoryImpl(
             pokemonListRemoteMediator = get(),
+            localDataSource = get(),
             mapper = get(),
-            localDataSource = get()
+            remoteDataSource = get()
         )
     }
 

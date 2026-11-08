@@ -17,6 +17,10 @@ class PokemonListLocalDataSourceImp(
         pokemonDao.insertAll(list)
     }
 
+    override suspend fun getPokemonById(pokemonId: Int): PokemonEntity? {
+        return pokemonDao.getPokemonById(pokemonId)
+    }
+
     override suspend fun getRemoteKeysId(item: Int): RemoteKeysEntity? {
         return remoteKeysDao.getRemoteKeysId(item)
     }
@@ -56,18 +60,18 @@ class PokemonListLocalDataSourceImp(
             "type LIKE '%${type.lowercase()}%'"
         }
 
-        val query = "SELECT * FROM pokemon_table WHERE $whereConditions"
+        val query = "SELECT * FROM pokemon_table WHERE $whereConditions ORDER BY id ASC"
         return SimpleSQLiteQuery(query)
     }
 
     private fun buildTypeQueryWithId(id: Int, selectedTypes: List<String>): SupportSQLiteQuery {
         return if (selectedTypes.isEmpty()) {
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE id = $id")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE id = $id ORDER BY id ASC")
         } else {
             val typeConditions = selectedTypes.joinToString(" OR ") { type ->
                 "type LIKE '%${type.lowercase()}%'"
             }
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE id = $id AND ($typeConditions)")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE id = $id AND ($typeConditions) ORDER BY id ASC")
         }
     }
 
@@ -76,12 +80,12 @@ class PokemonListLocalDataSourceImp(
         selectedTypes: List<String>
     ): SupportSQLiteQuery {
         return if (selectedTypes.isEmpty()) {
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%'")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%' ORDER BY id ASC")
         } else {
             val typeConditions = selectedTypes.joinToString(" OR ") { type ->
                 "type LIKE '%${type.lowercase()}%'"
             }
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%' AND ($typeConditions)")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%' AND ($typeConditions) ORDER BY id ASC")
         }
     }
 }

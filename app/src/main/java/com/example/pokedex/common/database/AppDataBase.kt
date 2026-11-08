@@ -23,7 +23,7 @@ import com.example.pokedex.details.data.database.entity.PokemonSpecieEntity
         PokemonEvolutionEntity::class,
         FavoriteEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class AppDataBase : RoomDatabase() {
