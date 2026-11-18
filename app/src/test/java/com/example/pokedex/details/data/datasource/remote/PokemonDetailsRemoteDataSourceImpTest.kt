@@ -3,6 +3,7 @@ import com.example.pokedex.details.data.api.model.PokemonEvolutionResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import com.example.pokedex.details.data.api.service.PokemonDetailsService
 import com.example.pokedex.details.data.datasource.remote.PokemonDetailsRemoteDataSourceImp
+import com.example.pokedex.list.data.api.model.PokemonDetailsResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -77,6 +78,22 @@ class PokemonDetailsRemoteDataSourceImpTest {
 
             // Then
             coVerify(exactly = 1) { mockPokemonDetailsService.searchDamageRelations(typeName) }
+            assertEquals(expectedResponse, result)
+        }
+
+    @Test
+    fun `searchPokemonDetails WHEN service returns data THEN emits PokemonDetailsResponse`() =
+        runTest {
+            // Given
+            val pokemonId = 1
+            val expectedResponse = mockk<PokemonDetailsResponse>()
+            coEvery { mockPokemonDetailsService.searchPokemonDetails(pokemonId) } returns expectedResponse
+
+            // When
+            val result = remoteDataSource.searchPokemonDetails(pokemonId).first()
+
+            // Then
+            coVerify(exactly = 1) { mockPokemonDetailsService.searchPokemonDetails(pokemonId) }
             assertEquals(expectedResponse, result)
         }
 }

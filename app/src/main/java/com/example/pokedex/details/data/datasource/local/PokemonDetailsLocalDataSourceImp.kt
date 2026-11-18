@@ -29,4 +29,8 @@ class PokemonDetailsLocalDataSourceImp(
     override suspend fun saveEvolutions(evolutions: PokemonEvolutionEntity) {
         pokemonEvolutionDao.insert(evolutions)
     }
+
+    override suspend fun savePokemonEntity(pokemonEntity: PokemonEntity) {
+        pokemonDao.insertAll(listOf(pokemonEntity))
+    }
 }

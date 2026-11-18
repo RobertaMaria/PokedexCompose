@@ -60,19 +60,33 @@ class PokemonDetailsRepositoryImp(
         )
     }
 
+    private fun getOrFetchPokemonEntity(id: Int): Flow<PokemonEntity> = flow {
+        val localPokemon = localDataSource.getPokemonEntity(id)
+        if (localPokemon != null) {
+            emit(localPokemon)
+        } else {
+            remoteDataSource.searchPokemonDetails(id)
+                .collect { response ->
+                    val entity = mapper.mapDetailsResponseToPokemonEntity(response)
+                    localDataSource.savePokemonEntity(entity)
+                    emit(entity)
+                }
+        }
+    }.flowOn(ioDispatcher)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun fetchDamageRelations(
-        localPokemon: PokemonEntity?
+        pokemonEntity: PokemonEntity
     ): Flow<Pair<List<String>, List<String>>> = flow {
-        val result = localPokemon?.type?.asFlow()?.flatMapMerge { typeName ->
+        val result = pokemonEntity.type.asFlow().flatMapMerge { typeName ->
             remoteDataSource.searchDamageRelations(typeName).map { damageRelations ->
                 calculateWeaknesses(damageRelations)
             }
-        }?.fold(Pair(emptyList<String>(), emptyList<String>())) { acc, pair ->
+        }.fold(Pair(emptyList<String>(), emptyList<String>())) { acc, pair ->
             Pair(acc.first + pair.first, acc.second + pair.second)
-        }?.let {
+        }.let {
             Pair(it.first.distinct(), it.second.distinct())
-        } ?: Pair(emptyList(), emptyList())
+        }
         emit(result)
     }.flowOn(ioDispatcher)
 
@@ -86,22 +100,24 @@ class PokemonDetailsRepositoryImp(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun fetchRemotePokemonDetail(id: Int): Flow<PokemonDetails> =
-        remoteDataSource.searchPokemonSpecie(id)
-            .flatMapConcat { remoteSpecie ->
-                fetchAndBuildPokemonDetail(id, remoteSpecie)
+        getOrFetchPokemonEntity(id)
+            .flatMapConcat { pokemonEntity ->
+                remoteDataSource.searchPokemonSpecie(id)
+                    .flatMapConcat { remoteSpecie ->
+                        fetchAndBuildPokemonDetail(id, remoteSpecie, pokemonEntity)
+                    }
             }
             .flowOn(ioDispatcher)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun fetchAndBuildPokemonDetail(
         id: Int,
-        remoteSpecie: PokemonSpecieResponse
+        remoteSpecie: PokemonSpecieResponse,
+        pokemonEntity: PokemonEntity
     ): Flow<PokemonDetails> {
-        val localPokemon = localDataSource.getPokemonEntity(id)
-
-        return fetchDamageRelations(localPokemon)
+        return fetchDamageRelations(pokemonEntity)
             .flatMapConcat { remoteDamageRelations ->
-                buildAndSavePokemonData(id, remoteSpecie, remoteDamageRelations, localPokemon)
+                buildAndSavePokemonData(id, remoteSpecie, remoteDamageRelations, pokemonEntity)
             }
     }
 
@@ -110,7 +126,7 @@ class PokemonDetailsRepositoryImp(
         id: Int,
         remoteSpecie: PokemonSpecieResponse,
         remoteDamageRelations: Pair<List<String>, List<String>>,
-        localPokemon: PokemonEntity?
+        pokemonEntity: PokemonEntity
     ): Flow<PokemonDetails> = flow {
         val rawEnglishDescription = mapper.extractEnglishFlavorText(remoteSpecie)
         val translatedDescription = translator.translate(rawEnglishDescription)
@@ -125,7 +141,7 @@ class PokemonDetailsRepositoryImp(
 
         fetchAndSaveEvolutions(remoteSpecie)
             .collect { evolutions ->
-                mapToPokemonDetails(specieEntity, localPokemon, evolutions)
+                mapToPokemonDetails(specieEntity, pokemonEntity, evolutions)
                     .collect { pokemonDetails ->
                         emit(pokemonDetails)
                     }
@@ -146,13 +162,11 @@ class PokemonDetailsRepositoryImp(
 
     private fun mapToPokemonDetails(
         specieEntity: PokemonSpecieEntity,
-        pokemonEntity: PokemonEntity?,
+        pokemonEntity: PokemonEntity,
         evolutionEntity: PokemonEvolutionEntity?
     ): Flow<PokemonDetails> = flow {
-        pokemonEntity?.let {
-            val evolution = evolutionEntity ?: PokemonEvolutionEntity(evolutions = emptyList())
-            val pokemonDetails = mapper.mapToDomain(specieEntity, it, evolution)
-            emit(pokemonDetails)
-        }
+        val evolution = evolutionEntity ?: PokemonEvolutionEntity(evolutions = emptyList())
+        val pokemonDetails = mapper.mapToDomain(specieEntity, pokemonEntity, evolution)
+        emit(pokemonDetails)
     }
 }

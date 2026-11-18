@@ -1,7 +1,6 @@
 package com.example.pokedex.list.view.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.pokedex.R
 import com.example.pokedex.common.components.PokemonType
 import com.example.pokedex.common.model.TypeColoursEnum
@@ -73,7 +72,9 @@ fun PokemonItem(
 
             val (image, id, name, types, listOfMeasurements, favoriteButton) = createRefs()
 
-            Image(
+            AsyncImage(
+                model = pokemon.image,
+                contentDescription = pokemon.name,
                 modifier = Modifier
                     .size(150.dp)
                     .constrainAs(image) {
@@ -82,12 +83,8 @@ fun PokemonItem(
                         bottom.linkTo(parent.bottom)
                     },
                 contentScale = ContentScale.Crop,
-                painter = rememberAsyncImagePainter(
-                    model = pokemon.image,
-                    error = painterResource(R.drawable.pokebola),
-                    placeholder = painterResource(R.drawable.pokebola)
-                ),
-                contentDescription = pokemon.name
+                placeholder = painterResource(R.drawable.pokebola),
+                error = painterResource(R.drawable.pokebola)
             )
 
             Text(

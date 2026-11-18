@@ -4,6 +4,7 @@ import com.example.pokedex.details.data.api.model.PokemonDamageRelationsResponse
 import com.example.pokedex.details.data.api.model.PokemonEvolutionResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import com.example.pokedex.details.data.api.service.PokemonDetailsService
+import com.example.pokedex.list.data.api.model.PokemonDetailsResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -21,5 +22,9 @@ class PokemonDetailsRemoteDataSourceImp(private val service: PokemonDetailsServi
 
     override fun searchDamageRelations(name: String): Flow<PokemonDamageRelationsResponse> {
         return flow { emit(service.searchDamageRelations(name = name)) }
+    }
+
+    override fun searchPokemonDetails(id: Int): Flow<PokemonDetailsResponse> {
+        return flow { emit(service.searchPokemonDetails(id = id)) }
     }
 }

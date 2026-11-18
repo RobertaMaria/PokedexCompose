@@ -1,6 +1,9 @@
 package com.example.pokedex.details.data.mapper
 
+import com.example.pokedex.list.data.api.model.PokemonDetailsResponse
 import com.example.pokedex.list.data.database.entity.PokemonEntity
+import com.example.pokedex.list.data.database.entity.PokemonStats as EntityPokemonStats
+import com.example.pokedex.list.data.database.entity.Stat as EntityStat
 import com.example.pokedex.details.data.api.model.ChainResponse
 import com.example.pokedex.details.data.api.model.EvolutionsResponse
 import com.example.pokedex.details.data.api.model.GeneraResponse
@@ -17,6 +20,24 @@ import com.example.pokedex.details.domain.model.Stat
 private const val LANGUAGE_ENGLISH = "en"
 
 class PokemonDetailsMapper {
+
+    fun mapDetailsResponseToPokemonEntity(response: PokemonDetailsResponse): PokemonEntity {
+        return PokemonEntity(
+            id = response.id,
+            name = response.name,
+            image = response.image.other.officialImage.imageDefault,
+            height = response.height,
+            weight = response.weight,
+            type = response.types.map { it.type.typeName },
+            stats = response.stats.map {
+                EntityPokemonStats(
+                    baseStat = it.baseStat,
+                    stat = EntityStat(it.stat.statName)
+                )
+            },
+            abilities = response.abilities.map { it.ability.abilityName }
+        )
+    }
 
     fun mapToSpecieEntity(
         response: PokemonSpecieResponse,

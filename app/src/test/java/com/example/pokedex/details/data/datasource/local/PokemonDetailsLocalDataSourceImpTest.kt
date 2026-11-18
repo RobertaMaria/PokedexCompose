@@ -123,4 +123,17 @@ class PokemonDetailsLocalDataSourceImpTest {
         // Then
         coVerify(exactly = 1) { mockPokemonEvolutionDao.insert(mockPokemonEvolutionEntity) }
     }
+
+    @Test
+    fun `savePokemonEntity WHEN called THEN calls pokemonDao insertAll`() = runTest {
+        // Given
+        val mockPokemonEntity = mockk<PokemonEntity>()
+        every { mockPokemonDao.insertAll(listOf(mockPokemonEntity)) } just runs
+
+        // When
+        localDataSource.savePokemonEntity(mockPokemonEntity)
+
+        // Then
+        io.mockk.verify(exactly = 1) { mockPokemonDao.insertAll(listOf(mockPokemonEntity)) }
+    }
 }

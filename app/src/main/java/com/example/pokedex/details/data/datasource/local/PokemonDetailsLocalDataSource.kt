@@ -10,4 +10,5 @@ interface PokemonDetailsLocalDataSource {
     fun getPokemonSpecie(id: Int): SpeciesAndEvolutions?
     fun getPokemonEntity(pokemonId: Int): PokemonEntity?
     suspend fun saveEvolutions(evolutions: PokemonEvolutionEntity)
+    suspend fun savePokemonEntity(pokemonEntity: PokemonEntity)
 }
