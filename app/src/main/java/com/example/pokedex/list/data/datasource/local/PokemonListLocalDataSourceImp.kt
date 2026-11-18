@@ -79,13 +79,14 @@ class PokemonListLocalDataSourceImp(
         name: String,
         selectedTypes: List<String>
     ): SupportSQLiteQuery {
+        val searchPrefix = name.trim().lowercase()
         return if (selectedTypes.isEmpty()) {
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%' ORDER BY id ASC")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '$searchPrefix%' ORDER BY id ASC")
         } else {
             val typeConditions = selectedTypes.joinToString(" OR ") { type ->
                 "type LIKE '%${type.lowercase()}%'"
             }
-            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '%$name%' AND ($typeConditions) ORDER BY id ASC")
+            SimpleSQLiteQuery("SELECT * FROM pokemon_table WHERE name LIKE '$searchPrefix%' AND ($typeConditions) ORDER BY id ASC")
         }
     }
 }
