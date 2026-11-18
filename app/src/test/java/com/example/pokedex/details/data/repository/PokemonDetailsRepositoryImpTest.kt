@@ -122,6 +122,7 @@ class PokemonDetailsRepositoryImpTest {
             coEvery { remoteDataSource.searchPokemonSpecie(pokemonId) } returns flowOf(
                 mockRemoteSpecieResponse
             )
+            every { mapper.extractEnglishFlavorText(mockRemoteSpecieResponse) } returns "English description"
             coEvery { remoteDataSource.searchDamageRelations(ofType<String>()) } returns flowOf(
                 pokemonDamageRelationsResponse
             )
@@ -129,7 +130,8 @@ class PokemonDetailsRepositoryImpTest {
                 mapper.mapToSpecieEntity(
                     mockRemoteSpecieResponse,
                     pokemonId,
-                    Pair(emptyList(), emptyList())
+                    Pair(emptyList(), emptyList()),
+                    any()
                 )
             } returns pokemonSpecieEntity
 

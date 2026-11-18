@@ -26,6 +26,7 @@ turbine = "1.1.0"
 paging-testing = "3.3.6"
 uiTestJunit4 = "1.11.2"
 uiTestJunit4V2 = "1.6.0"
+mlkit-translate = "17.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -66,6 +67,7 @@ arch-core = { group = "androidx.arch.core", name = "core-testing", version.ref =
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 paging-testing = { group = "androidx.paging", name = "paging-common", version.ref = "paging-testing" }
+mlkit-translate = { group = "com.google.mlkit", name = "translate", version.ref = "mlkit-translate" }
 
 
 [plugins]

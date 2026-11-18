@@ -69,6 +69,9 @@ dependencies {
     // UI
     implementation(libs.androidx.constraintlayout)
 
+    // Translation ML Kit
+    implementation(libs.mlkit.translate)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

@@ -9,6 +9,8 @@ import com.example.pokedex.details.data.database.entity.PokemonSpecieEntity
 import com.example.pokedex.details.data.database.entity.PokemonEvolutionEntity
 import com.example.pokedex.details.domain.model.PokemonDetails
 import com.example.pokedex.details.domain.repository.PokemonDetailsRepository
+import com.example.pokedex.details.data.translator.PokemonTranslator
+import com.example.pokedex.details.data.translator.PokemonTranslatorImpl
 import com.example.pokedex.list.data.database.entity.PokemonEntity
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +29,8 @@ class PokemonDetailsRepositoryImp(
     private val remoteDataSource: PokemonDetailsRemoteDataSource,
     private val localDataSource: PokemonDetailsLocalDataSource,
     private val mapper: PokemonDetailsMapper,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val translator: PokemonTranslator = PokemonTranslatorImpl()
 ) : PokemonDetailsRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -109,7 +112,15 @@ class PokemonDetailsRepositoryImp(
         remoteDamageRelations: Pair<List<String>, List<String>>,
         localPokemon: PokemonEntity?
     ): Flow<PokemonDetails> = flow {
-        val specieEntity = mapper.mapToSpecieEntity(remoteSpecie, id, remoteDamageRelations)
+        val rawEnglishDescription = mapper.extractEnglishFlavorText(remoteSpecie)
+        val translatedDescription = translator.translate(rawEnglishDescription)
+
+        val specieEntity = mapper.mapToSpecieEntity(
+            response = remoteSpecie,
+            id = id,
+            damageRelations = remoteDamageRelations,
+            translatedDescription = translatedDescription
+        )
         localDataSource.savePokemonSpecie(specieEntity)
 
         fetchAndSaveEvolutions(remoteSpecie)

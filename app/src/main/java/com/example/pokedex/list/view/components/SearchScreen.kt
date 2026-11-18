@@ -60,6 +60,16 @@ fun SearchScreen(
     val showButton by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val coroutineScope = rememberCoroutineScope()
 
+    val shouldShowAppendLoading by remember {
+        derivedStateOf {
+            val isAppendLoading = pokemonLazyPagingItems.loadState.append is LoadState.Loading ||
+                    pokemonLazyPagingItems.loadState.mediator?.append is LoadState.Loading
+            val isRefreshNotLoading = pokemonLazyPagingItems.loadState.refresh is LoadState.NotLoading
+
+            isRefreshNotLoading && isAppendLoading && listState.canScrollBackward
+        }
+    }
+
     var previousSearchText by rememberSaveable { mutableStateOf(searchText) }
     var previousSelectedTypes by rememberSaveable { mutableStateOf(selectedTypes.joinToString(",")) }
     var shouldScrollToTop by rememberSaveable { mutableStateOf(false) }
@@ -202,6 +212,19 @@ fun SearchScreen(
                 ) { index ->
                     pokemonLazyPagingItems[index]?.let { pokemon ->
                         PokemonItem(pokemon = pokemon, onClickPokemon = onClickPokemon)
+                    }
+                }
+
+                if (shouldShowAppendLoading) {
+                    item(key = "append_loading") {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingAnimation()
+                        }
                     }
                 }
             }

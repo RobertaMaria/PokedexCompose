@@ -61,6 +61,30 @@ class PokemonDetailsMapperTest {
     }
 
     @Test
+    fun `mapToSpecieEntity - uses translated description when provided`() {
+        // Given
+        val pokemonIdInput = 1
+        val flavorTextEntries = listOf(
+            FlavorTextEntry("English description", englishLanguage)
+        )
+        val genera = listOf(
+            GeneraResponse("Category EN", englishLanguage)
+        )
+        val evolutionChainResponse =
+            EvolutionChainResponse("https://pokeapi.co/api/v2/evolution-chain/1/")
+        val apiResponse =
+            PokemonSpecieResponse(flavorTextEntries, evolutionChainResponse, 1, genera)
+        val damageRelations = Pair(listOf("fire"), listOf("ground"))
+        val translatedText = "Descrição em português"
+
+        // When
+        val entity = mapper.mapToSpecieEntity(apiResponse, pokemonIdInput, damageRelations, translatedText)
+
+        // Then
+        assertEquals("Descrição em português", entity.description)
+    }
+
+    @Test
     fun `mapperToEvolutionsEntity - maps linear evolution chain correctly`() {
         // Given
         val evolutionUrl = "https://pokeapi.co/api/v2/evolution-chain/1/"

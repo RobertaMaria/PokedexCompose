@@ -3,7 +3,6 @@ package com.example.pokedex.details.data.mapper
 import com.example.pokedex.list.data.database.entity.PokemonEntity
 import com.example.pokedex.details.data.api.model.ChainResponse
 import com.example.pokedex.details.data.api.model.EvolutionsResponse
-import com.example.pokedex.details.data.api.model.FlavorTextEntry
 import com.example.pokedex.details.data.api.model.GeneraResponse
 import com.example.pokedex.details.data.api.model.PokemonSpecieResponse
 import com.example.pokedex.details.data.database.entity.EvolutionsEntity
@@ -22,10 +21,11 @@ class PokemonDetailsMapper {
     fun mapToSpecieEntity(
         response: PokemonSpecieResponse,
         id: Int,
-        damageRelations: Pair<List<String>, List<String>>
+        damageRelations: Pair<List<String>, List<String>>,
+        translatedDescription: String? = null
     ): PokemonSpecieEntity {
 
-        val flavorTextEntry = response.flavorTextEntries.findEnglishFlavorText()
+        val flavorTextEntry = translatedDescription ?: extractEnglishFlavorText(response)
         val genus = response.genera.findEnglishGenus()
         val evolutionId = extractIdFromUrl(response.chainResponse.url)
 
@@ -42,8 +42,9 @@ class PokemonDetailsMapper {
         }
     }
 
-    private fun List<FlavorTextEntry>.findEnglishFlavorText(): String {
-        return firstOrNull { it.language.name == LANGUAGE_ENGLISH }?.flavorText.orEmpty()
+    fun extractEnglishFlavorText(response: PokemonSpecieResponse): String {
+        return response.flavorTextEntries
+            .firstOrNull { it.language.name == LANGUAGE_ENGLISH }?.flavorText.orEmpty()
     }
 
     private fun List<GeneraResponse>.findEnglishGenus(): String {

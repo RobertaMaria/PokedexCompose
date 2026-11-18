@@ -12,6 +12,8 @@ import com.example.pokedex.details.domain.repository.PokemonDetailsRepository
 import com.example.pokedex.details.domain.usecase.GetPokemonDetailsUseCase
 import com.example.pokedex.details.view.factory.PokemonDetailsFactory
 import com.example.pokedex.details.view.viewmodel.PokemonDetailsViewModel
+import com.example.pokedex.details.data.translator.PokemonTranslator
+import com.example.pokedex.details.data.translator.PokemonTranslatorImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -29,12 +31,13 @@ val detailsModule = module {
     factory<PokemonDetailsLocalDataSource> { PokemonDetailsLocalDataSourceImp(get(), get(), get()) }
     factory<PokemonDetailsRemoteDataSource> { PokemonDetailsRemoteDataSourceImp(get()) }
 
-    // Mappers
+    // Mappers & Translators
     factory { PokemonDetailsMapper() }
+    factory<PokemonTranslator> { PokemonTranslatorImpl() }
 
     // Repositories
     single<PokemonDetailsRepository> {
-        PokemonDetailsRepositoryImp(get(), get(), get())
+        PokemonDetailsRepositoryImp(get(), get(), get(), translator = get())
     }
 
     // Use Cases

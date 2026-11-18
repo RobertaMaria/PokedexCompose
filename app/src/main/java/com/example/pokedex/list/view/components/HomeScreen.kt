@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -43,6 +45,16 @@ fun HomeScreen(
     val showButton by remember { derivedStateOf { listState.firstVisibleItemIndex > 0 } }
     val coroutineScope = rememberCoroutineScope()
 
+    val shouldShowAppendLoading by remember {
+        derivedStateOf {
+            val isAppendLoading = pokemonLazyPagingItems.loadState.append is LoadState.Loading ||
+                    pokemonLazyPagingItems.loadState.mediator?.append is LoadState.Loading
+            val isRefreshNotLoading = pokemonLazyPagingItems.loadState.refresh is LoadState.NotLoading
+
+            isRefreshNotLoading && isAppendLoading && listState.canScrollBackward
+        }
+    }
+
     Box(modifier = modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -57,6 +69,19 @@ fun HomeScreen(
             ) { index ->
                 pokemonLazyPagingItems[index]?.let { pokemon ->
                     PokemonItem(pokemon = pokemon, onClickPokemon = onClickPokemon)
+                }
+            }
+
+            if (shouldShowAppendLoading) {
+                item(key = "append_loading") {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingAnimation()
+                    }
                 }
             }
         }
